@@ -33,7 +33,7 @@
  */
 
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.8.0"
 }
 
 group = "com.github.ItzYashvardhan"
