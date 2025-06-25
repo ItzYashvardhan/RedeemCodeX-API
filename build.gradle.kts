@@ -33,11 +33,13 @@
  */
 
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "2.1.0"
+    `java-library`
+    `maven-publish`
 }
 
-group = "com.github.ItzYashvardhan"
-version = "1.0.0"
+group = project.group.toString()
+version = project.version.toString()
 
 repositories {
     mavenCentral()
@@ -47,10 +49,22 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT")
+    api("org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT")
     implementation(kotlin("stdlib"))
 }
 
 kotlin {
     jvmToolchain(8)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+
+            groupId = project.group.toString()
+            artifactId = "redeemcodex-api"
+            version = project.version.toString()
+        }
+    }
 }
