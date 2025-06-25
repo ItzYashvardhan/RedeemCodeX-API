@@ -36,8 +36,8 @@ plugins {
     kotlin("jvm") version "2.1.0"
 }
 
-group = project.group.toString()
-version = "redeemcodex-api"
+group = "com.github.ItzYashvardhan"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
