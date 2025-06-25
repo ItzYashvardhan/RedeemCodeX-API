@@ -38,8 +38,8 @@ plugins {
     `maven-publish`
 }
 
-group = project.group.toString()
-version = project.version.toString()
+group = "com.github.ItzYashvardhan"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -63,7 +63,7 @@ publishing {
             from(components["java"])
 
             groupId = project.group.toString()
-            artifactId = "redeemcodex-api"
+            artifactId = "RedeemCodeX-API"
             version = project.version.toString()
         }
     }
