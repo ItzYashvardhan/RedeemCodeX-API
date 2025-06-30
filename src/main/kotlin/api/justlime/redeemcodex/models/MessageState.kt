@@ -33,17 +33,7 @@
  */
 
 
-package api.justlime.redeemcodex.models/*
- *
- *  RedeemCodeX
- *  Copyright 2024 JUSTLIME
- *
- *  This software is licensed under the Apache License 2.0 with a Commons Clause restriction.
- *  See the LICENSE file for details.
- *
- *
- *
- */
+package api.justlime.redeemcodex.models
 
 data class MessageState(
     var text: MutableList<String>, var actionbar: String, var title: JTitle
