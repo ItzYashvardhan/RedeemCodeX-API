@@ -41,7 +41,6 @@ import org.bukkit.command.CommandSender
 data class RCXPlaceHolder(
     var sender: CommandSender,
     val args: List<String> = emptyList(),
-    var sentMessage: String = "",
 
     var code: String = "none",
     var totalCodes: Int = 1,
