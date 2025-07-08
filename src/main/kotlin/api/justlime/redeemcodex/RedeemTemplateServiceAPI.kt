@@ -106,8 +106,9 @@ interface RedeemTemplateServiceAPI {
      * Existing codes not linked with it will remain unchanged.
      *
      * @param redeemTemplate The [RedeemTemplate] used to re-synchronize matching codes.
+     * @return `true` if the synchronization was successful, `false` otherwise.
      */
-    fun syncCodes(redeemTemplate: RedeemTemplate)
+    fun syncCodes(redeemTemplate: RedeemTemplate): Boolean
 
 
     /**
