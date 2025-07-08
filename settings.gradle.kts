@@ -32,12 +32,4 @@
  *
  */
 
-
-package api.justlime.redeemcodex
-
-@Suppress("unused")
-object RedeemXAPI {
-    lateinit var code: RedeemCodeServiceAPI
-    lateinit var template: RedeemTemplateServiceAPI
-    lateinit var service: RedeemServiceAPI
-}
+rootProject.name = "RedeemCodeX-API"

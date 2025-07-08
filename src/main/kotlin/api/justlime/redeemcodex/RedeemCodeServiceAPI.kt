@@ -37,30 +37,132 @@ package api.justlime.redeemcodex
 
 import api.justlime.redeemcodex.models.RCXPlaceHolder
 import api.justlime.redeemcodex.models.RedeemCode
+import api.justlime.redeemcodex.models.RedeemTemplate
 
+/**
+ * RedeemCodeServiceAPI defines the core contract for managing redeemable codes.
+ * It includes functionalities for code generation, retrieval, deletion, and insertion.
+ */
 interface RedeemCodeServiceAPI {
 
-    fun getCode(code: String): RedeemCode?
-
-    fun getCodes(): MutableSet<String>
-
-    fun generateCode(uniqueName: String, template: String = "DEFAULT"): RedeemCode
-
-    fun generateCode(digit: Int, template: String = "DEFAULT", amount: Int): Set<RedeemCode>
-
-    fun generateCode(digit: Int, template: String = "DEFAULT"): RedeemCode
-
-    fun generateCode(digit: Int, amount: Int = 1): List<RedeemCode>
-
-    fun deleteCode(code: String): Boolean
-
-    fun deleteCodes(codes: List<String>): Boolean
-
-    fun deleteAllCode(): Boolean
-
+    /**
+     * Creates an [RCXPlaceHolder] from the given [RedeemCode].
+     *
+     * @param code The redeem code to build the placeholder from.
+     * @return A placeholder object associated with the given redeem code.
+     */
     fun getRCXPlaceHolder(code: RedeemCode): RCXPlaceHolder
 
+    /**
+     * Retrieves a [RedeemCode] by its string representation.
+     *
+     * @param code The string key of the redeem code.
+     * @return The [RedeemCode] object if found, or null if it does not exist.
+     */
+    fun getCode(code: String): RedeemCode?
+
+    /**
+     * Returns all redeem code keys stored in the system.
+     *
+     * @return A mutable set of redeem code strings.
+     */
+    fun getCodes(): MutableSet<String>
+
+    /**
+     * Generates a single redeem code associated with a unique name and template.
+     *
+     * @param uniqueName A unique identifier for the code.
+     * @param template The template used for code generation. Defaults to "DEFAULT".
+     * @return The newly generated [RedeemCode].
+     */
+    fun generateCode(uniqueName: String, template: String = "DEFAULT"): RedeemCode
+
+    /**
+     * Generates a single redeem code with a specified digit length and template.
+     *
+     * @param digit The length of the redeem code.
+     * @param template The template used for code generation. Defaults to "DEFAULT".
+     * @return The newly generated [RedeemCode].
+     */
+    fun generateCode(digit: Int, template: String = "DEFAULT"): RedeemCode
+
+    /**
+     * Generates multiple redeem codes with a specified digit length and amount.
+     *
+     * @param digit The length of the redeem code.
+     * @param template The template used for code generation. Defaults to "DEFAULT".
+     * @param amount The number of codes to generate.
+     * @return A set of newly generated [RedeemCode]s.
+     */
+    fun generateCode(digit: Int, template: String = "DEFAULT", amount: Int): Set<RedeemCode>
+
+    /**
+     * Generates a list of redeem codes with specified digit length and quantity.
+     *
+     * @param digit The length of each redeem code.
+     * @param amount The number of codes to generate. Defaults to 1.
+     * @return A list of generated [RedeemCode]s.
+     */
+    fun generateCode(digit: Int, amount: Int = 1): List<RedeemCode>
+
+    /**
+     * Deletes a redeem code by its key.
+     *
+     * @param code The redeem code string to delete.
+     * @return True if deletion was successful, false otherwise.
+     */
+    fun deleteCode(code: String): Boolean
+
+    /**
+     * Deletes multiple redeem codes in a single operation.
+     *
+     * @param codes A list of redeem code strings to delete.
+     * @return True if all codes were successfully deleted, false otherwise.
+     */
+    fun deleteCodes(codes: List<String>): Boolean
+
+    /**
+     * Deletes all redeem codes from the storage.
+     *
+     * @return True if all codes were deleted successfully.
+     */
+    fun deleteAllCode(): Boolean
+
+
+    /**
+     * Attempts to synchronize a single [RedeemCode] with its associated [RedeemTemplate], if applicable.
+     *
+     * This method re-evaluates the given code and updates its properties
+     * based on the latest version of the template.
+     *
+     * Useful when a template has been updated and existing codes need to reflect the changes.
+     *
+     * @param redeemCode The [RedeemCode] to synchronize.
+     * @return `true` if synchronization was successful (template found and applied), `false` otherwise.
+     */
+    fun syncCode(redeemCode: RedeemCode): Boolean
+
+
+    /**
+     * Inserts or updates a redeem code.
+     *
+     * **Important!!**
+     * This method **must be called** after generating new code or modifying
+     * to ensure that all changes are saved.
+     *
+     * @param code The redeem code to insert or update.
+     */
     fun upsertCode(code: RedeemCode)
 
+    /**
+     * Inserts or updates multiple [RedeemCode] entries in the storage.
+     *
+     * **Important!!**
+     * This method **must be called** after generating new codes or modifying
+     * to ensure that all changes are saved.
+     *
+     * @param code A list of [RedeemCode] instances to be inserted or updated.
+     */
     fun upsertCodes(code: List<RedeemCode>)
+
 }

@@ -28,16 +28,12 @@
  * For inquiries,
  * Email: itsyashvardhan76@gmail.com
  * Discord: https://discord.gg/rVsUJ4keZN
- *
- *
  */
-
 
 package api.justlime.redeemcodex
 
-@Suppress("unused")
-object RedeemXAPI {
-    lateinit var code: RedeemCodeServiceAPI
-    lateinit var template: RedeemTemplateServiceAPI
-    lateinit var service: RedeemServiceAPI
+import api.justlime.redeemcodex.models.RCXPlaceHolder
+
+interface RedeemServiceAPI {
+    fun applyPlaceHolder(string: String, placeHolder: RCXPlaceHolder)
 }

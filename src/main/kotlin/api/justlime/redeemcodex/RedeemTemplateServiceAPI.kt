@@ -38,16 +38,88 @@ package api.justlime.redeemcodex
 import api.justlime.redeemcodex.models.RCXPlaceHolder
 import api.justlime.redeemcodex.models.RedeemTemplate
 
+/**
+ * RedeemTemplateServiceAPI defines operations for managing redeem code templates.
+ * Templates typically define rules such as generation behavior
+ * for redeem codes.
+ */
 interface RedeemTemplateServiceAPI {
-    fun generateTemplate(template: String): RedeemTemplate
 
-    fun getTemplate(template: String): RedeemTemplate?
-
-    fun getTemplates(): List<String>
-
+    /**
+     * Creates an [RCXPlaceHolder] from the given [RedeemTemplate].
+     *
+     * @param template The template to convert into a placeholder object.
+     * @return A generated [RCXPlaceHolder] for dynamic message or UI replacement.
+     */
     fun getRCXPlaceHolder(template: RedeemTemplate): RCXPlaceHolder
 
+    /**
+     * Checks whether a template with the specified name exists.
+     *
+     * @param template The name or key of the template.
+     * @return `true` if the template exists, `false` otherwise.
+     */
+    fun isTemplateExist(template: String): Boolean
+
+    /**
+     * Retrieves the [RedeemTemplate] object for the given name.
+     *
+     * @param template The name or key of the template.
+     * @return The corresponding [RedeemTemplate], or `null` if not found.
+     */
+    fun getTemplate(template: String): RedeemTemplate?
+
+    /**
+     * Returns a list of all available template names.
+     *
+     * @return A list of template identifiers.
+     */
+    fun getTemplates(): List<String>
+
+    /**
+     * Generates a new [RedeemTemplate] with the given name.
+     *
+     * If a template with the given name already exists, it may be overwritten
+     * depending on implementation.
+     *
+     * @param template The name or key for the new template.
+     * @return The generated [RedeemTemplate] object.
+     */
+    fun generateTemplate(template: String): RedeemTemplate
+
+    /**
+     * Deletes a template by its name.
+     *
+     * @param template The name or key of the template to delete.
+     * @return `true` if the template was successfully deleted, `false` otherwise.
+     */
     fun deleteTemplate(template: String): Boolean
 
+    /**
+     * Synchronizes all [api.justlime.redeemcodex.models.RedeemCode] that were linked using the provided [RedeemTemplate].
+     *
+     * This method re-applies the logic, rules, or behaviour defined in the given template
+     * to all associated redeem codes—ensuring consistency after a template update.
+     *
+     * ⚠️ **Important:**
+     * This only affects codes that are explicitly linked from the specified template.
+     * Existing codes not linked with it will remain unchanged.
+     *
+     * @param redeemTemplate The [RedeemTemplate] used to re-synchronize matching codes.
+     */
+    fun syncCodes(redeemTemplate: RedeemTemplate)
+
+
+    /**
+     * Inserts a new template or updates an existing one.
+     *
+     * **Important!!**
+     * Use this method after generating or modifying a [RedeemTemplate] to ensure changes are saved.
+     *
+     * @param template The [RedeemTemplate] to insert or update.
+     * @return `true` if the operation succeeded, `false` otherwise.
+     */
     fun upsertTemplate(template: RedeemTemplate): Boolean
+
+
 }
