@@ -35,5 +35,5 @@ package api.justlime.redeemcodex
 import api.justlime.redeemcodex.models.RCXPlaceHolder
 
 interface RedeemServiceAPI {
-    fun applyPlaceHolder(string: String, placeHolder: RCXPlaceHolder)
+    fun applyPlaceHolder(string: String, placeHolder: RCXPlaceHolder): String
 }
