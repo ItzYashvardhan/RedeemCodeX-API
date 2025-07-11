@@ -37,7 +37,7 @@ package api.justlime.redeemcodex.models
 data class JTitle(
     var title: String = "",
     var subTitle: String = "",
-    var fadeIn: Long = 10,
+    var fadeIn: Long = 10, //In Ticks
     var stay: Long = 70,
     var fadeOut: Long = 10
 )

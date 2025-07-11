@@ -70,6 +70,7 @@ data class RCXPlaceHolder(
     var redeemedBy: String = "none",
     var totalPlayerUsage: String = "none",
     var totalRedemption: String = "none",
+    var condition: String = "none",
 
     var validTo: String = "none",
     var validFrom: String = "none",
@@ -92,4 +93,6 @@ data class RCXPlaceHolder(
 
     var templateSync: String = "none",
     var templateSyncProperty: String = "none",
+
+    var dateFormat: String = "yyyy-MM-dd HH:mm:ss"
 )

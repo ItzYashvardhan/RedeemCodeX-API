@@ -63,9 +63,9 @@ data class RedeemCode(
     var commands: MutableList<String>, //Empty list for disabled
 
     var rewards: MutableList<ItemStack> = mutableListOf(),
-    var messages: MessageState,
-    var sound: SoundState,
+    var messages: MessageState,//Blank for disabled
+    var sound: SoundState,//Blank for disabled
     var ipLimit: MutableMap<String, String>,//Key - Ip, Value - PlayerName
-    var condition: String,
-    var modified: Timestamp
+    var condition: String, //Blank for disabled
+    var modified: Timestamp //Last Modified date
 )

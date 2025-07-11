@@ -36,6 +36,7 @@
 package api.justlime.redeemcodex
 
 import api.justlime.redeemcodex.models.RCXPlaceHolder
+import api.justlime.redeemcodex.models.RedeemCode
 import api.justlime.redeemcodex.models.RedeemTemplate
 
 /**
@@ -77,13 +78,19 @@ interface RedeemTemplateServiceAPI {
     fun getTemplates(): List<String>
 
     /**
+     * Returns a list of all available [RedeemCode].
+     *
+     * @return A list of [RedeemCode] objects.
+     */
+    fun getTemplateCodes(): List<RedeemCode>
+
+    /**
      * Generates a new [RedeemTemplate] with the given name.
      *
-     * If a template with the given name already exists, it may be overwritten
-     * depending on implementation.
      *
      * @param template The name or key for the new template.
      * @return The generated [RedeemTemplate] object.
+     * @throws IllegalStateException if a template with the same name already exists.
      */
     fun generateTemplate(template: String): RedeemTemplate
 

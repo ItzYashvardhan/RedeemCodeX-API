@@ -81,5 +81,6 @@ data class RedeemTemplate(
 
     var target: MutableList<String> = mutableListOf(),
     var syncTarget: Boolean,
-    var condition: String
+    var condition: String,
+    var syncCondition: Boolean
 )
