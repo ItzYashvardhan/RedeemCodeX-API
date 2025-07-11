@@ -82,7 +82,7 @@ interface RedeemTemplateServiceAPI {
      *
      * @return A list of [RedeemCode] objects.
      */
-    fun getTemplateCodes(): List<RedeemCode>
+    fun getTemplateCodes(template: RedeemTemplate): List<RedeemCode>
 
     /**
      * Generates a new [RedeemTemplate] with the given name.
