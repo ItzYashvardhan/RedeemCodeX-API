@@ -67,5 +67,6 @@ data class RedeemCode(
     var sound: SoundState,//Blank for disabled
     var ipLimit: MutableMap<String, String>,//Key - Ip, Value - PlayerName
     var condition: String, //Blank for disabled
-    var modified: Timestamp //Last Modified date
+    var modified: Timestamp, //Last Modified date
+    var server: String
 )
