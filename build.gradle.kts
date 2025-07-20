@@ -55,6 +55,7 @@ dependencies {
 
 kotlin {
     jvmToolchain(8)
+
 }
 
 publishing {
