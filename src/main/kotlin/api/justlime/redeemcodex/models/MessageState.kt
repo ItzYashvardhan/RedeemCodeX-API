@@ -36,5 +36,7 @@
 package api.justlime.redeemcodex.models
 
 data class MessageState(
-    var text: MutableList<String>, var actionbar: String, var title: JTitle
+    var text: MutableList<String>,
+    var actionbar: String,
+    var title: JTitle
 )

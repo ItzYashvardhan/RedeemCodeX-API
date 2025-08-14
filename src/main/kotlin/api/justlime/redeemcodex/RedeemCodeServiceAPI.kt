@@ -46,14 +46,6 @@ import api.justlime.redeemcodex.models.RedeemTemplate
 interface RedeemCodeServiceAPI {
 
     /**
-     * Creates an [RCXPlaceHolder] from the given [RedeemCode].
-     *
-     * @param code The redeem code to build the placeholder from.
-     * @return A placeholder object associated with the given redeem code.
-     */
-    fun getRCXPlaceHolder(code: RedeemCode): RCXPlaceHolder
-
-    /**
      * Retrieves a [RedeemCode] by its string representation.
      *
      * @param code The string key of the redeem code.

@@ -39,5 +39,4 @@ package api.justlime.redeemcodex
 object RedeemXAPI {
     lateinit var code: RedeemCodeServiceAPI
     lateinit var template: RedeemTemplateServiceAPI
-    lateinit var service: RedeemServiceAPI
 }

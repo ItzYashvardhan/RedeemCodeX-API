@@ -38,8 +38,6 @@ package api.justlime.redeemcodex.models
 import api.justlime.redeemcodex.RedeemXAPI
 import api.justlime.redeemcodex.utilities.JTimeUtils
 import org.bukkit.command.CommandSender
-import kotlin.code
-import kotlin.toString
 
 data class RCXPlaceHolder(
     var sender: CommandSender,
@@ -256,7 +254,6 @@ data class RCXPlaceHolder(
             "sync_value" to placeholder.templateSync,
             "sync" to placeholder.templateSync,
 
-
             //Common
             "max_redemption" to placeholder.redemptionLimit,
             "max_player_limit" to placeholder.playerLimit,
@@ -289,6 +286,5 @@ data class RCXPlaceHolder(
     fun toMap(): Map<String, String> {
         return rcxPlaceholderMap()
     }
-
 
 }

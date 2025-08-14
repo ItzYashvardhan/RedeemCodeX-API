@@ -47,14 +47,6 @@ import api.justlime.redeemcodex.models.RedeemTemplate
 interface RedeemTemplateServiceAPI {
 
     /**
-     * Creates an [RCXPlaceHolder] from the given [RedeemTemplate].
-     *
-     * @param template The template to convert into a placeholder object.
-     * @return A generated [RCXPlaceHolder] for dynamic message or UI replacement.
-     */
-    fun getRCXPlaceHolder(template: RedeemTemplate): RCXPlaceHolder
-
-    /**
      * Checks whether a template with the specified name exists.
      *
      * @param template The name or key of the template.
