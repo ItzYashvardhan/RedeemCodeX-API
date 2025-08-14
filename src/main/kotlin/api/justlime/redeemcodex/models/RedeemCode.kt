@@ -28,45 +28,114 @@
  * For inquiries,
  * Email: itsyashvardhan76@gmail.com
  * Discord: https://discord.gg/rVsUJ4keZN
- *
- *
  */
-
 
 
 package api.justlime.redeemcodex.models
 
-
 import org.bukkit.inventory.ItemStack
 import java.sql.Timestamp
+import java.time.Instant
 
 data class RedeemCode(
-    var code: String, var enabledStatus: Boolean,
+    var code: String, override var enabledStatus: Boolean,
 
-    var template: String, //Blank for disabled
-    var sync: Boolean,
+    override var template: String, //Blank for disabled
+    override var sync: Boolean,
 
-    var duration: String, //0s for disabled
-    var cooldown: String, //0s for disabled
+    override var duration: String, //0s for disabled
+    override var cooldown: String, //0s for disabled
 
-    var permission: String, //Blank for disabled
-    var pin: Int, //0 for disabled
+    override var permission: String, //Blank for disabled
+    override var pin: Int, //0 for disabled
 
-    var redemption: Int, //0 for infinite Redemption limit
-    var playerLimit: Int, //0 for infinite player limit
+    override var redemption: Int, //0 for infinite Redemption limit
+    override var playerLimit: Int, //0 for infinite player limit
 
     var usedBy: MutableMap<String, Int>,
 
     var validFrom: Timestamp, var lastRedeemed: MutableMap<String, Timestamp>,
 
     var target: MutableList<String>, //Blank for disabled
-    var commands: MutableList<String>, //Empty list for disabled
+    override var commands: MutableList<String>, //Empty list for disabled
 
-    var rewards: MutableList<ItemStack> = mutableListOf(),
-    var messages: MessageState,//Blank for disabled
-    var sound: SoundState,//Blank for disabled
-    var ipLimit: MutableMap<String, String>,//Key - Ip, Value - PlayerName
-    var condition: String, //Blank for disabled
-    var modified: Timestamp, //Last Modified date
-    var server: String
-)
+    override var rewards: MutableList<ItemStack> = mutableListOf(),
+    override var messages: MessageState,
+    override var sound: SoundState,
+    var ipLimit: MutableMap<String, String>,//Key - Ip, Value - Redemption Count
+    override var condition: String,
+    var modified: Timestamp,
+    var server: String,
+) : RedeemType {
+    object Create {
+        /**
+         * Generated a RedeemCode using RedeemTemplate
+         */
+        fun redeemCode(code: String, redeemTemplate: RedeemTemplate): RedeemCode {
+            val currentTime = Timestamp.from(Instant.now())
+
+            return RedeemCode(
+                code = code.uppercase(),
+                template = redeemTemplate.template,
+                commands = redeemTemplate.commands,
+                validFrom = currentTime,
+                duration = redeemTemplate.duration,
+                enabledStatus = true,
+                redemption = redeemTemplate.redemption,
+                playerLimit = redeemTemplate.playerLimit,
+                permission = if (redeemTemplate.permissionRequired) redeemTemplate.permission.replace(
+                    "{code}", code.lowercase()
+                ) else "",
+                pin = redeemTemplate.pin,
+                sync = redeemTemplate.sync,
+                usedBy = mutableMapOf(),
+                target = mutableListOf(),
+                lastRedeemed = mutableMapOf(),
+                cooldown = "0s",
+                modified = currentTime,
+                rewards = redeemTemplate.rewards,
+                sound = redeemTemplate.sound,
+                messages = redeemTemplate.messages,
+                ipLimit = mutableMapOf(),
+                condition = redeemTemplate.condition,
+                server = "Default"
+            )
+        }
+
+        /**
+         * Generate an empty RedeemCode
+         **/
+        fun redeemCode(code: String): RedeemCode {
+            val currentTime = Timestamp.from(Instant.now())
+            return RedeemCode(
+                code = "",
+                enabledStatus = true,
+                template = "DEFAULT",
+                sync = false,
+                duration = "0s",
+                cooldown = "0s",
+                permission = "",
+                pin = 0,
+                redemption = 1,
+                playerLimit = 1,
+                usedBy = mutableMapOf(),
+                validFrom = currentTime,
+                lastRedeemed = mutableMapOf(),
+                target = mutableListOf(),
+                commands = mutableListOf(),
+                rewards = mutableListOf(),
+                messages = MessageState(
+                    text = mutableListOf(), actionbar = "", title = JTitle()
+                ),
+                sound = SoundState(
+                    sound = null, volume = 1f, pitch = 1f
+                ),
+                ipLimit = mutableMapOf(),
+                condition = "",
+                modified = currentTime,
+                server = "Default"
+            )
+        }
+    }
+
+}

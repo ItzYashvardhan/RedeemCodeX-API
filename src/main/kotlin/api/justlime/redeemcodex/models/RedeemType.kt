@@ -28,26 +28,28 @@
  * For inquiries,
  * Email: itsyashvardhan76@gmail.com
  * Discord: https://discord.gg/rVsUJ4keZN
- *
- *
  */
-
 
 package api.justlime.redeemcodex.models
 
-import org.bukkit.Sound
-import org.bukkit.entity.Player
-import java.io.Serializable
+import org.bukkit.inventory.ItemStack
 
-data class SoundState(
-    var sound: String? = null,// string-based sound name
-    var volume: Float = 1f, var pitch: Float = 1f
-) : Serializable {
-    fun playSound(player: Player) {
-        if (sound == null) return
+sealed interface RedeemType {
 
-        val resolvedSound = enumValues<Sound>().find { it.name.equals(sound, true) } ?: return
+    var enabledStatus: Boolean
 
-        player.playSound(player.location, resolvedSound, volume, pitch)
-    }
+    val template: String
+    var sync: Boolean
+    var duration: String
+    var cooldown: String
+    var permission: String
+    var pin: Int
+    var redemption: Int
+    var playerLimit: Int
+    var commands: MutableList<String>
+    var rewards: MutableList<ItemStack>
+    var messages: MessageState
+    var sound: SoundState
+    var condition: String
+
 }

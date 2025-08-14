@@ -34,53 +34,103 @@
 
 package api.justlime.redeemcodex.models
 
+import api.justlime.redeemcodex.RedeemXAPI
 import org.bukkit.inventory.ItemStack
 
 data class RedeemTemplate(
-    val name: String, //TODO Implement Template Rename
+    override val template: String,
 
-    var defaultEnabledStatus: Boolean,
+    override var enabledStatus: Boolean,
     var syncEnabledStatus: Boolean,
 
-    var commands: MutableList<String>,
+    override var commands: MutableList<String>,
     var syncCommands: Boolean,
 
-    var duration: String,
+    override var duration: String,
     var syncDuration: Boolean,
 
-    var cooldown: String,
+    override var cooldown: String,
     var syncCooldown: Boolean,
 
-    var pin: Int = 0,
+    override var pin: Int = 0,
     var syncPin: Boolean,
 
-    var redemption: Int = 1,
+    override var redemption: Int = 1,
     var syncRedemption: Boolean,
 
-    var playerLimit: Int = 1,
+    override var playerLimit: Int = 1,
     var syncPlayerLimit: Boolean,
 
-    var defaultSync: Boolean,
+    override var sync: Boolean,
     var syncLockedStatus: Boolean,
 
+    override var permission: String,
     var permissionRequired: Boolean,
-    var permissionValue: String,
     var syncPermission: Boolean,
 
-    var messages: MessageState,
+    override var messages: MessageState,
     var syncMessages: Boolean,
 
-    var sound: String,
-    var soundVolume: Float,
-    var soundPitch: Float,
+    override var sound: SoundState,
 
     var syncSound: Boolean,
 
-    var rewards: MutableList<ItemStack>,
+    override var rewards: MutableList<ItemStack>,
     var syncRewards: Boolean,
 
     var target: MutableList<String> = mutableListOf(),
     var syncTarget: Boolean,
-    var condition: String,
-    var syncCondition: Boolean
-)
+
+    override var condition: String,
+    var syncCondition: Boolean,
+) : RedeemType {
+    object Create {
+        fun redeemTemplate(template: String): RedeemTemplate {
+            if (RedeemXAPI.template.isTemplateExist(template)) {
+                throw IllegalStateException("TEMPLATE ALREADY EXIST")
+            }
+            val template = loadDefaultTemplateValues(template)
+            template.sync = true
+            RedeemXAPI.template.upsertTemplate(template)
+            return template
+        }
+
+        private fun loadDefaultTemplateValues(template: String): RedeemTemplate {
+            return RedeemTemplate(
+                template = template,
+                enabledStatus = true,
+                commands = mutableListOf(),
+                duration = "0s",
+                cooldown = "0s",
+                redemption = 1,
+                playerLimit = 1,
+                sync = false,
+                permissionRequired = false,
+                permission = "redeemx.use.${template.lowercase()}.{code}",
+                condition = "",
+                messages = MessageState(mutableListOf(), "", JTitle()),
+                sound = SoundState(),
+                pin = -1,
+                rewards = mutableListOf(),
+                target = mutableListOf(),
+                syncEnabledStatus = true,
+                syncLockedStatus = true,
+                syncTarget = false,
+                syncCommands = true,
+                syncDuration = true,
+                syncCooldown = true,
+                syncPin = true,
+                syncRedemption = true,
+                syncPlayerLimit = true,
+                syncPermission = true,
+                syncMessages = true,
+                syncSound = true,
+                syncRewards = true,
+                syncCondition = true
+            )
+        }
+    }
+
+
+
+}
