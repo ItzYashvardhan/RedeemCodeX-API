@@ -219,7 +219,6 @@ data class RCXPlaceHolder(
     private fun rcxPlaceholderMap(): Map<String, String> {
         val placeholder = this
         return mapOf(
-
             //Main
             "{player}" to placeholder.sender.name,
             "{args}" to placeholder.args.joinToString(" "),
