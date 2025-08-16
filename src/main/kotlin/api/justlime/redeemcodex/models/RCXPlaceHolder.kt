@@ -37,10 +37,9 @@ package api.justlime.redeemcodex.models
 
 import api.justlime.redeemcodex.RedeemXAPI
 import api.justlime.redeemcodex.utilities.JTimeUtils
-import org.bukkit.command.CommandSender
 
 data class RCXPlaceHolder(
-    var sender: CommandSender,
+    var player: String = "CONSOLE",
     val args: List<String> = emptyList(),
 
     var code: String = "none",
@@ -98,8 +97,8 @@ data class RCXPlaceHolder(
     var dateFormat: String = "yyyy-MM-dd HH:mm:ss"
 ) {
     companion object {
-        fun fetchByDB(code: String, sender: CommandSender): RCXPlaceHolder {
-            val redeemCode: RedeemCode = RedeemXAPI.code.getCode(code) ?: return RCXPlaceHolder(sender, code = code)
+        fun fetchByDB(code: String): RCXPlaceHolder {
+            val redeemCode: RedeemCode = RedeemXAPI.code.getCode(code) ?: return RCXPlaceHolder("CONSOLE", code = code)
 
             val durationSeconds = redeemCode.duration.removeSuffix("s").toIntOrNull() ?: 0
             val days = durationSeconds / 86400
@@ -115,7 +114,7 @@ data class RCXPlaceHolder(
             }.trim()
 
             return RCXPlaceHolder(
-                sender = sender,
+                player = "CONSOLE",
                 code = code,
                 command = redeemCode.commands.toString().removeSurrounding("{", "}").trim(),
                 duration = if (redeemCode.duration.isEmpty()) "none" else formattedDuration,
@@ -146,9 +145,9 @@ data class RCXPlaceHolder(
             )
         }
 
-        fun applyByRedeemCode(redeemCode: RedeemCode, sender: CommandSender): RCXPlaceHolder {
+        fun applyByRedeemCode(redeemCode: RedeemCode): RCXPlaceHolder {
             return RCXPlaceHolder(
-                sender = sender,
+                player = "CONSOLE",
                 code = redeemCode.code,
                 template = redeemCode.template,
                 duration = redeemCode.duration,
@@ -182,9 +181,9 @@ data class RCXPlaceHolder(
             )
         }
 
-        fun applyByRedeemTemplate(template: RedeemTemplate, sender: CommandSender): RCXPlaceHolder {
+        fun applyByRedeemTemplate(template: RedeemTemplate): RCXPlaceHolder {
             return RCXPlaceHolder(
-                sender = sender,
+                player = "CONSOLE",
                 template = template.template,
                 status = template.enabledStatus.toString(),
                 templateSync = template.sync.toString(),
@@ -220,7 +219,8 @@ data class RCXPlaceHolder(
         val placeholder = this
         return mapOf(
             //Main
-            "{player}" to placeholder.sender.name,
+            "{sender}" to placeholder.player,
+
             "{args}" to placeholder.args.joinToString(" "),
             "{property}" to placeholder.property,
             "{current_version}" to placeholder.currentVersion,
