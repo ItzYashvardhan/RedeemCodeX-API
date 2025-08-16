@@ -39,6 +39,7 @@ import org.bukkit.inventory.ItemStack
 
 data class RedeemTemplate(
     override val template: String,
+    var digit: Int = 5,
 
     override var enabledStatus: Boolean,
     var syncEnabledStatus: Boolean,
@@ -130,7 +131,5 @@ data class RedeemTemplate(
             )
         }
     }
-
-
 
 }
