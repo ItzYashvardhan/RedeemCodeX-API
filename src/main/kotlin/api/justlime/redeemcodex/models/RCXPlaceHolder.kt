@@ -37,14 +37,18 @@ package api.justlime.redeemcodex.models
 
 import api.justlime.redeemcodex.RedeemXAPI
 import api.justlime.redeemcodex.utilities.JTimeUtils
+import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 
 data class RCXPlaceHolder(
+    var sender: CommandSender = Bukkit.getConsoleSender(),
     var player: String = "CONSOLE",
     val args: List<String> = emptyList(),
 
     var code: String = "none",
     var totalCodes: Int = 1,
     var template: String = "none",
+    var digit: Int = 5,
     var command: String = "none",
     var commandId: String = "none",
     var duration: String = "none",
@@ -53,23 +57,22 @@ data class RCXPlaceHolder(
 
     var permission: String = "none",
     var requiredPermission: String = "none",
-    var pin: String = "none",
+    var pin: Int = -1,
     var target: String = "none",
     var cooldown: String = "none",
     var codeCooldown: String = "none",
     var commandCooldown: String = "none",
     val isExpired: String = "none",
-    var minLength: String = "none",
-    var maxLength: String = "none",
-    var codeGenerateDigit: String = "none",
+    var minLength: Int = 3,
+    var maxLength: Int = 25,
     var property: String = "none",
 
-    var redemptionLimit: String = "none",
-    var playerLimit: String = "none",
+    var redemptionLimit: Int = 1,
+    var playerLimit: Int = 1,
     var usedBy: String = "none",
     var redeemedBy: String = "none",
-    var totalPlayerUsage: String = "none",
-    var totalRedemption: String = "none",
+    var totalPlayerUsage: Int = 0,
+    var totalRedemption: Int = 0,
     var condition: String = "none",
 
     var validTo: String = "none",
@@ -95,10 +98,11 @@ data class RCXPlaceHolder(
     var templateSyncProperty: String = "none",
 
     var dateFormat: String = "yyyy-MM-dd HH:mm:ss"
+
 ) {
     companion object {
         fun fetchByDB(code: String): RCXPlaceHolder {
-            val redeemCode: RedeemCode = RedeemXAPI.code.getCode(code) ?: return RCXPlaceHolder("CONSOLE", code = code)
+            val redeemCode: RedeemCode = RedeemXAPI.code.getCode(code) ?: return RCXPlaceHolder(Bukkit.getConsoleSender(),"CONSOLE", code = code)
 
             val durationSeconds = redeemCode.duration.removeSuffix("s").toIntOrNull() ?: 0
             val days = durationSeconds / 86400
@@ -119,19 +123,19 @@ data class RCXPlaceHolder(
                 command = redeemCode.commands.toString().removeSurrounding("{", "}").trim(),
                 duration = if (redeemCode.duration.isEmpty()) "none" else formattedDuration,
                 status = redeemCode.enabledStatus.toString(),
-                redemptionLimit = redeemCode.redemption.toString(),
-                playerLimit = redeemCode.playerLimit.toString(),
+                redemptionLimit = redeemCode.redemption,
+                playerLimit = redeemCode.playerLimit,
                 permission = redeemCode.permission,
-                pin = if (redeemCode.pin <= 0) "none" else redeemCode.pin.toString(),
+                pin = -1,
                 target = redeemCode.target.toString(),
                 usedBy = redeemCode.usedBy.toString(),
                 template = redeemCode.template,
                 templateSync = redeemCode.sync.toString(),
                 cooldown = redeemCode.cooldown,
                 isExpired = JTimeUtils.isExpired(redeemCode).toString(),
-                minLength = "3",
-                maxLength = "25",
-                codeGenerateDigit = "5",
+                minLength = 3,
+                maxLength = 25,
+                digit = 5,
                 chatMessage = redeemCode.messages.text.toString().removeSurrounding("[", "]").trim(),
                 chatTitle = redeemCode.messages.title.title,
                 chatSubTitle = redeemCode.messages.title.subTitle,
@@ -152,19 +156,19 @@ data class RCXPlaceHolder(
                 template = redeemCode.template,
                 duration = redeemCode.duration,
                 status = redeemCode.enabledStatus.toString(),
-                redemptionLimit = redeemCode.redemption.toString(),
-                playerLimit = redeemCode.playerLimit.toString(),
+                redemptionLimit = redeemCode.redemption,
+                playerLimit = redeemCode.playerLimit,
                 permission = redeemCode.permission,
-                pin = if (redeemCode.pin <= 0) "none" else redeemCode.pin.toString(),
+                pin = -1,
                 target = redeemCode.target.toString(),
                 usedBy = redeemCode.usedBy.map {
                     "${it.key} = ${it.value}"
                 }.joinToString(", "),
                 templateSync = redeemCode.sync.toString(),
                 cooldown = redeemCode.cooldown,
-                minLength = "none",
-                maxLength = "none",
-                codeGenerateDigit = "3",
+                minLength = 3,
+                maxLength = 25,
+                digit = 5,
                 isExpired = JTimeUtils.isExpired(redeemCode).toString(),
                 command = redeemCode.commands.toString().removeSurrounding("[", "]").trim(),
                 chatMessage = redeemCode.messages.text.toString().removeSurrounding("[", "]").trim(),
@@ -189,13 +193,13 @@ data class RCXPlaceHolder(
                 templateSync = template.sync.toString(),
                 duration = template.duration,
                 cooldown = template.cooldown,
-                redemptionLimit = template.redemption.toString(),
-                playerLimit = template.playerLimit.toString(),
+                redemptionLimit = template.redemption,
+                playerLimit = template.playerLimit,
                 permission = template.permission,
-                pin = if (template.pin <= 0) "none" else template.pin.toString(),
-                minLength = "none",
-                maxLength = "none",
-                codeGenerateDigit = "none",
+                pin = -1,
+                minLength = 3,
+                maxLength = 25,
+                digit = 5,
                 command = template.commands.toString().removeSurrounding("[", "]").trim(),
                 chatMessage = template.messages.text.toString().removeSurrounding("[", "]").trim(),
                 chatTitle = template.messages.title.title,
@@ -219,7 +223,8 @@ data class RCXPlaceHolder(
         val placeholder = this
         return mapOf(
             //Main
-            "{sender}" to placeholder.player,
+            "{sender" to placeholder.sender.name,
+            "{player}" to placeholder.player,
 
             "{args}" to placeholder.args.joinToString(" "),
             "{property}" to placeholder.property,
@@ -232,13 +237,13 @@ data class RCXPlaceHolder(
             //Redeem Command
             "{command_cooldown}" to placeholder.commandCooldown,
             "{cooldown}" to placeholder.cooldown,
-            "{min}" to placeholder.minLength,
-            "{max}" to placeholder.maxLength,
+            "{min}" to placeholder.minLength.toString(),
+            "{max}" to placeholder.maxLength.toString(),
 
             //Code Info
-            "{player_redeemed}" to placeholder.totalPlayerUsage,
+            "{player_redeemed}" to placeholder.totalPlayerUsage.toString(),
             "{total_code}" to placeholder.totalCodes.toString(),
-            "{total_redemption}" to placeholder.totalRedemption,
+            "{total_redemption}" to placeholder.totalRedemption.toString(),
             "{target}" to placeholder.target,
             "{expired}" to placeholder.isExpired,
             "{expiry}" to placeholder.validTo,
@@ -247,18 +252,18 @@ data class RCXPlaceHolder(
             "{code_cooldown}" to placeholder.codeCooldown,
 
             //Template
-            "{digit}" to placeholder.codeGenerateDigit,
+            "{digit}" to placeholder.digit.toString(),
             "{required_permission}" to placeholder.requiredPermission,
             "{sync_property}" to placeholder.templateSyncProperty,
             "{sync_value}" to placeholder.templateSync,
             "{sync}" to placeholder.templateSync,
 
             //Common
-            "{max_redemption}" to placeholder.redemptionLimit,
-            "{max_player_limit}" to placeholder.playerLimit,
+            "{max_redemption}" to placeholder.redemptionLimit.toString(),
+            "{max_player_limit}" to placeholder.playerLimit.toString(),
             "{duration}" to placeholder.duration,
             "{condition}" to placeholder.condition,
-            "{pin}" to placeholder.pin,
+            "{pin}" to placeholder.pin.toString(),
             "{permission}" to placeholder.permission,
             "{command}" to placeholder.command,
             "{id}" to placeholder.commandId,
