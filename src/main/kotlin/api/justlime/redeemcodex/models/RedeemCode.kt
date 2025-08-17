@@ -39,7 +39,8 @@ import java.time.Instant
 import java.util.UUID
 
 data class RedeemCode(
-    var code: String, override var enabledStatus: Boolean,
+    var code: String,
+    override var enabledStatus: Boolean,
 
     override var template: String, //Blank for disabled
     override var sync: Boolean,
@@ -52,10 +53,10 @@ data class RedeemCode(
 
     override var redemption: Int, //0 for infinite Redemption limit
     override var playerLimit: Int, //0 for infinite player limit
+    override var condition: String,
 
-    var usedBy: MutableMap<String, Int>,
-
-    var validFrom: Timestamp, var lastRedeemed: MutableMap<String, Timestamp>,
+    var usedBy: MutableMap<UUID, Int>,
+    var validFrom: Timestamp, var lastRedeemed: MutableMap<UUID, Timestamp>,
 
     var target: MutableList<UUID>, //Blank for disabled
     override var commands: MutableList<String>, //Empty list for disabled
@@ -63,8 +64,8 @@ data class RedeemCode(
     override var rewards: MutableList<ItemStack> = mutableListOf(),
     override var messages: MessageState,
     override var sound: SoundState,
-    var ipLimit: MutableMap<String, String>,//Key - Ip, Value - Redemption Count
-    override var condition: String,
+
+    var ipLimit: MutableMap<UUID, String>,//Key - Ip, Value - Redemption Count
     var modified: Timestamp,
     var server: String,
 ) : RedeemType {

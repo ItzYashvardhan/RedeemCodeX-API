@@ -79,8 +79,6 @@ data class RedeemTemplate(
     override var rewards: MutableList<ItemStack>,
     var syncRewards: Boolean,
 
-    var target: MutableList<String> = mutableListOf(),
-    var syncTarget: Boolean,
 
     override var condition: String,
     var syncCondition: Boolean,
@@ -113,10 +111,8 @@ data class RedeemTemplate(
                 sound = SoundState(),
                 pin = -1,
                 rewards = mutableListOf(),
-                target = mutableListOf(),
                 syncEnabledStatus = true,
                 syncLockedStatus = true,
-                syncTarget = false,
                 syncCommands = true,
                 syncDuration = true,
                 syncCooldown = true,

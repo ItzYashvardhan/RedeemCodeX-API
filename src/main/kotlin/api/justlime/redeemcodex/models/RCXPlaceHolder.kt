@@ -44,6 +44,7 @@ data class RCXPlaceHolder(
     var sender: CommandSender = Bukkit.getConsoleSender(),
     var player: String = "CONSOLE",
     val args: List<String> = emptyList(),
+    var senderName: String = "CONSOLE",
 
     var code: String = "none",
     var totalCodes: String = "1",
