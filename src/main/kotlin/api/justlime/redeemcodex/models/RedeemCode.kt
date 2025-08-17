@@ -36,6 +36,7 @@ package api.justlime.redeemcodex.models
 import org.bukkit.inventory.ItemStack
 import java.sql.Timestamp
 import java.time.Instant
+import java.util.UUID
 
 data class RedeemCode(
     var code: String, override var enabledStatus: Boolean,
@@ -56,7 +57,7 @@ data class RedeemCode(
 
     var validFrom: Timestamp, var lastRedeemed: MutableMap<String, Timestamp>,
 
-    var target: MutableList<String>, //Blank for disabled
+    var target: MutableList<UUID>, //Blank for disabled
     override var commands: MutableList<String>, //Empty list for disabled
 
     override var rewards: MutableList<ItemStack> = mutableListOf(),
