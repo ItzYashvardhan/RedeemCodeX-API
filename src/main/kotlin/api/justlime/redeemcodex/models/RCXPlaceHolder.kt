@@ -46,9 +46,9 @@ data class RCXPlaceHolder(
     val args: List<String> = emptyList(),
 
     var code: String = "none",
-    var totalCodes: Int = 1,
+    var totalCodes: String = "1",
     var template: String = "none",
-    var digit: Int = 5,
+    var digit: String = "5",
     var command: String = "none",
     var commandId: String = "none",
     var duration: String = "none",
@@ -57,22 +57,22 @@ data class RCXPlaceHolder(
 
     var permission: String = "none",
     var requiredPermission: String = "none",
-    var pin: Int = -1,
+    var pin: String = "-1",
     var target: String = "none",
     var cooldown: String = "none",
     var codeCooldown: String = "none",
     var commandCooldown: String = "none",
-    val isExpired: String = "none",
-    var minLength: Int = 3,
-    var maxLength: Int = 25,
+    var isExpired: String = "none",
+    var minLength: String = "3",
+    var maxLength: String = "25",
     var property: String = "none",
 
-    var redemptionLimit: Int = 1,
-    var playerLimit: Int = 1,
+    var redemptionLimit: String = "1",
+    var playerLimit: String = "1",
     var usedBy: String = "none",
     var redeemedBy: String = "none",
-    var totalPlayerUsage: Int = 0,
-    var totalRedemption: Int = 0,
+    var totalPlayerUsage: String = "0",
+    var totalRedemption: String = "0",
     var condition: String = "none",
 
     var validTo: String = "none",
@@ -80,16 +80,16 @@ data class RCXPlaceHolder(
     var lastRedeemed: String = "none",
 
     var chatMessage: String = "",
-    var chatMessageID: Int = 0,
+    var chatMessageID: String = "0",
     var chatActionBar: String = "",
     var chatTitle: String = "",
     var chatSubTitle: String = "",
-    var chatTitleFadeIn: Long = 0,
-    var chatTitleFadeOut: Long = 0,
-    var chatTitleStay: Long = 0,
+    var chatTitleFadeIn: String = "0",
+    var chatTitleFadeOut: String = "0",
+    var chatTitleStay: String = "0",
     var sound: String = "None",
-    var soundVolume: Float = 0f,
-    var soundPitch: Float = 0f,
+    var soundVolume: String = "0",
+    var soundPitch: String = "0",
 
     var currentVersion: String = "1.0.0",
     var author: String = "JustLime",
@@ -102,7 +102,7 @@ data class RCXPlaceHolder(
 ) {
     companion object {
         fun fetchByDB(code: String): RCXPlaceHolder {
-            val redeemCode: RedeemCode = RedeemXAPI.code.getCode(code) ?: return RCXPlaceHolder(Bukkit.getConsoleSender(),"CONSOLE", code = code)
+            val redeemCode: RedeemCode = RedeemXAPI.code.getCode(code) ?: return RCXPlaceHolder(player = "CONSOLE", code = code)
 
             val durationSeconds = redeemCode.duration.removeSuffix("s").toIntOrNull() ?: 0
             val days = durationSeconds / 86400
@@ -123,32 +123,33 @@ data class RCXPlaceHolder(
                 command = redeemCode.commands.toString().removeSurrounding("{", "}").trim(),
                 duration = if (redeemCode.duration.isEmpty()) "none" else formattedDuration,
                 status = redeemCode.enabledStatus.toString(),
-                redemptionLimit = redeemCode.redemption,
-                playerLimit = redeemCode.playerLimit,
+                redemptionLimit = redeemCode.redemption.toString(),
+                playerLimit = redeemCode.playerLimit.toString(),
                 permission = redeemCode.permission,
-                pin = -1,
+                pin = "-1",
                 target = redeemCode.target.toString(),
                 usedBy = redeemCode.usedBy.toString(),
                 template = redeemCode.template,
                 templateSync = redeemCode.sync.toString(),
                 cooldown = redeemCode.cooldown,
                 isExpired = JTimeUtils.isExpired(redeemCode).toString(),
-                minLength = 3,
-                maxLength = 25,
-                digit = 5,
+                minLength = "3",
+                maxLength = "25",
+                digit = "5",
                 chatMessage = redeemCode.messages.text.toString().removeSurrounding("[", "]").trim(),
                 chatTitle = redeemCode.messages.title.title,
                 chatSubTitle = redeemCode.messages.title.subTitle,
-                chatTitleFadeIn = redeemCode.messages.title.fadeIn,
-                chatTitleFadeOut = redeemCode.messages.title.fadeOut,
-                chatTitleStay = redeemCode.messages.title.stay,
+                chatTitleFadeIn = redeemCode.messages.title.fadeIn.toString(),
+                chatTitleFadeOut = redeemCode.messages.title.fadeOut.toString(),
+                chatTitleStay = redeemCode.messages.title.stay.toString(),
                 chatActionBar = redeemCode.messages.actionbar,
                 sound = redeemCode.sound.sound.toString(),
-                soundVolume = redeemCode.sound.volume,
-                soundPitch = redeemCode.sound.pitch,
+                soundVolume = redeemCode.sound.volume.toString(),
+                soundPitch = redeemCode.sound.pitch.toString(),
             )
         }
 
+        @Deprecated("This will be replaced by apply(RedeemType) method")
         fun applyByRedeemCode(redeemCode: RedeemCode): RCXPlaceHolder {
             return RCXPlaceHolder(
                 player = "CONSOLE",
@@ -156,35 +157,36 @@ data class RCXPlaceHolder(
                 template = redeemCode.template,
                 duration = redeemCode.duration,
                 status = redeemCode.enabledStatus.toString(),
-                redemptionLimit = redeemCode.redemption,
-                playerLimit = redeemCode.playerLimit,
+                redemptionLimit = redeemCode.redemption.toString(),
+                playerLimit = redeemCode.playerLimit.toString(),
                 permission = redeemCode.permission,
-                pin = -1,
+                pin = "-1",
                 target = redeemCode.target.toString(),
                 usedBy = redeemCode.usedBy.map {
                     "${it.key} = ${it.value}"
                 }.joinToString(", "),
                 templateSync = redeemCode.sync.toString(),
                 cooldown = redeemCode.cooldown,
-                minLength = 3,
-                maxLength = 25,
-                digit = 5,
+                minLength = "3",
+                maxLength = "25",
+                digit = "5",
                 isExpired = JTimeUtils.isExpired(redeemCode).toString(),
                 command = redeemCode.commands.toString().removeSurrounding("[", "]").trim(),
                 chatMessage = redeemCode.messages.text.toString().removeSurrounding("[", "]").trim(),
                 chatTitle = redeemCode.messages.title.title,
                 chatSubTitle = redeemCode.messages.title.subTitle,
-                chatTitleFadeIn = redeemCode.messages.title.fadeIn,
-                chatTitleFadeOut = redeemCode.messages.title.fadeOut,
-                chatTitleStay = redeemCode.messages.title.stay,
-                chatActionBar = redeemCode.messages.actionbar,
+                chatTitleFadeIn = redeemCode.messages.title.fadeIn.toString(),
+                chatTitleFadeOut = redeemCode.messages.title.fadeOut.toString(),
+                chatTitleStay = redeemCode.messages.title.stay.toString(),
+                chatActionBar = redeemCode.messages.actionbar.toString(),
                 sound = redeemCode.sound.sound.toString(),
-                soundVolume = redeemCode.sound.volume,
-                soundPitch = redeemCode.sound.pitch,
+                soundVolume = redeemCode.sound.volume.toString(),
+                soundPitch = redeemCode.sound.pitch.toString(),
                 condition = redeemCode.condition
             )
         }
 
+        @Deprecated("This will be replaced by apply(RedeemType) method")
         fun applyByRedeemTemplate(template: RedeemTemplate): RCXPlaceHolder {
             return RCXPlaceHolder(
                 player = "CONSOLE",
@@ -193,26 +195,33 @@ data class RCXPlaceHolder(
                 templateSync = template.sync.toString(),
                 duration = template.duration,
                 cooldown = template.cooldown,
-                redemptionLimit = template.redemption,
-                playerLimit = template.playerLimit,
+                redemptionLimit = template.redemption.toString(),
+                playerLimit = template.playerLimit.toString(),
                 permission = template.permission,
-                pin = -1,
-                minLength = 3,
-                maxLength = 25,
-                digit = 5,
+                pin = "-1",
+                minLength = "3",
+                maxLength = "25",
+                digit = "5",
                 command = template.commands.toString().removeSurrounding("[", "]").trim(),
                 chatMessage = template.messages.text.toString().removeSurrounding("[", "]").trim(),
                 chatTitle = template.messages.title.title,
                 chatSubTitle = template.messages.title.subTitle,
-                chatTitleFadeIn = template.messages.title.fadeIn,
-                chatTitleFadeOut = template.messages.title.fadeOut,
-                chatTitleStay = template.messages.title.stay,
+                chatTitleFadeIn = template.messages.title.fadeIn.toString(),
+                chatTitleFadeOut = template.messages.title.fadeOut.toString(),
+                chatTitleStay = template.messages.title.stay.toString(),
                 chatActionBar = template.messages.actionbar,
                 sound = template.sound.sound ?: "None",
-                soundVolume = template.sound.volume,
-                soundPitch = template.sound.pitch,
+                soundVolume = template.sound.volume.toString(),
+                soundPitch = template.sound.pitch.toString(),
                 condition = template.condition
             )
+        }
+
+        fun apply(redeemType: RedeemType): RCXPlaceHolder {
+            return when (redeemType) {
+                is RedeemCode -> applyByRedeemCode(redeemType)
+                is RedeemTemplate -> applyByRedeemTemplate(redeemType)
+            }
         }
 
         //warp to map
@@ -237,13 +246,13 @@ data class RCXPlaceHolder(
             //Redeem Command
             "{command_cooldown}" to placeholder.commandCooldown,
             "{cooldown}" to placeholder.cooldown,
-            "{min}" to placeholder.minLength.toString(),
-            "{max}" to placeholder.maxLength.toString(),
+            "{min}" to placeholder.minLength,
+            "{max}" to placeholder.maxLength,
 
             //Code Info
-            "{player_redeemed}" to placeholder.totalPlayerUsage.toString(),
-            "{total_code}" to placeholder.totalCodes.toString(),
-            "{total_redemption}" to placeholder.totalRedemption.toString(),
+            "{player_redeemed}" to placeholder.totalPlayerUsage,
+            "{total_code}" to placeholder.totalCodes,
+            "{total_redemption}" to placeholder.totalRedemption,
             "{target}" to placeholder.target,
             "{expired}" to placeholder.isExpired,
             "{expiry}" to placeholder.validTo,
@@ -252,32 +261,32 @@ data class RCXPlaceHolder(
             "{code_cooldown}" to placeholder.codeCooldown,
 
             //Template
-            "{digit}" to placeholder.digit.toString(),
+            "{digit}" to placeholder.digit,
             "{required_permission}" to placeholder.requiredPermission,
             "{sync_property}" to placeholder.templateSyncProperty,
             "{sync_value}" to placeholder.templateSync,
             "{sync}" to placeholder.templateSync,
 
             //Common
-            "{max_redemption}" to placeholder.redemptionLimit.toString(),
-            "{max_player_limit}" to placeholder.playerLimit.toString(),
+            "{max_redemption}" to placeholder.redemptionLimit,
+            "{max_player_limit}" to placeholder.playerLimit,
             "{duration}" to placeholder.duration,
             "{condition}" to placeholder.condition,
-            "{pin}" to placeholder.pin.toString(),
+            "{pin}" to placeholder.pin,
             "{permission}" to placeholder.permission,
             "{command}" to placeholder.command,
             "{id}" to placeholder.commandId,
             "{reward_message}" to placeholder.chatMessage,
-            "{reward_message_id}" to placeholder.chatMessageID.toString(),
+            "{reward_message_id}" to placeholder.chatMessageID,
             "{reward_actionbar}" to placeholder.chatActionBar,
             "{reward_title}" to placeholder.chatTitle,
             "{reward_subtitle}" to placeholder.chatSubTitle,
-            "{reward_fade_in}" to placeholder.chatTitleFadeIn.toString(),
-            "{reward_stay}" to placeholder.chatTitleStay.toString(),
-            "{reward_fade_out}" to placeholder.chatTitleFadeOut.toString(),
+            "{reward_fade_in}" to placeholder.chatTitleFadeIn,
+            "{reward_stay}" to placeholder.chatTitleStay,
+            "{reward_fade_out}" to placeholder.chatTitleFadeOut,
             "{sound}" to placeholder.sound,
-            "{sound_volume}" to placeholder.soundVolume.toString(),
-            "{sound_pitch}" to placeholder.soundPitch.toString(),
+            "{sound_volume}" to placeholder.soundVolume,
+            "{sound_pitch}" to placeholder.soundPitch,
 
             //Output
             "{renewed_player}" to placeholder.renewedPlayer,
