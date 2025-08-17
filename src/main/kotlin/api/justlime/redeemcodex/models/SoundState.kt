@@ -47,9 +47,9 @@ import java.io.Serializable
  * @param pitch The pitch of the sound, from 0.5 to 2.0.
  */
 data class SoundState(
-    val sound: String? = null,
-    val volume: Float = 1f,
-    val pitch: Float = 1f
+    var sound: String? = null,
+    var volume: Float = 1f,
+    var pitch: Float = 1f
 ) : Serializable {
 
     companion object {
@@ -66,7 +66,7 @@ data class SoundState(
      */
     fun playSound(player: Player) {
         if (sound.isNullOrBlank()) return
-        val resolvedSound = SOUND_MAP[sound.uppercase()] ?: return
+        val resolvedSound = SOUND_MAP[sound!!.uppercase()] ?: return
         player.playSound(player.location, resolvedSound, volume, pitch)
     }
 }
