@@ -99,7 +99,11 @@ data class RCXPlaceHolder(
     var templateSync: String = "none",
     var templateSyncProperty: String = "none",
 
-    var dateFormat: String = "yyyy-MM-dd HH:mm:ss"
+    var dateFormat: String = "yyyy-MM-dd HH:mm:ss",
+
+    //Coupons
+    var redeemedAt : String = "N/A",
+    var giftedAt: String = "N/A"
 
 ) {
     companion object {
@@ -225,6 +229,25 @@ data class RCXPlaceHolder(
                 is RedeemCode -> applyByRedeemCode(redeemType, sender)
                 is RedeemTemplate -> applyByRedeemTemplate(redeemType, sender)
             }
+        }
+
+        fun applyByCoupon(redeemCoupon: RedeemCoupon,sender: CommandSender): RCXPlaceHolder {
+            return RCXPlaceHolder(
+                sender = sender,
+                player = sender.name,
+                code = redeemCoupon.code,
+                giftedAt = redeemCoupon.giftedAt.toString(),
+            )
+        }
+
+        fun applyByLog(redeemLog: RedeemLog,sender: CommandSender): RCXPlaceHolder {
+            return RCXPlaceHolder(
+                sender = sender,
+                player = sender.isOp.toString(),
+                code = redeemLog.code,
+                template = redeemLog.template,
+                redeemedAt = redeemLog.redeemedAt.toString(),
+            )
         }
 
         //warp to map

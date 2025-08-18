@@ -7,5 +7,6 @@ data class RedeemLog (
     val id: Int,
     val playerUUID: UUID,
     val code: String,
+    val template: String,
     val redeemedAt: Timestamp
 )
