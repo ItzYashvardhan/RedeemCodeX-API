@@ -39,7 +39,7 @@ plugins {
 }
 
 group = "com.github.ItzYashvardhan"
-version = "1.1.4"
+version = "1.2.0"
 repositories {
     mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") {
