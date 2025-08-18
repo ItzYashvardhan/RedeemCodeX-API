@@ -7,6 +7,6 @@ data class RedeemCoupon(
     val id: Int,
     val uuid: UUID,
     val code: String,
-    val claimedAtList: MutableList<Timestamp>,
+    val claimedAt: Timestamp,
     val giftedAt: Timestamp
 )
