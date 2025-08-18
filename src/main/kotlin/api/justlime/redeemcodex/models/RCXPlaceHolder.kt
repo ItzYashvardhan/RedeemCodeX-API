@@ -55,6 +55,7 @@ data class RCXPlaceHolder(
     var duration: String = "none",
     var status: String = "none",
     var renewedPlayer: String = "none",
+    var result: String = "SUCCESS",
 
     var permission: String = "none",
     var requiredPermission: String = "none",
@@ -151,7 +152,7 @@ data class RCXPlaceHolder(
         }
 
         @Deprecated("This will be replaced by apply(RedeemType) method")
-        fun applyByRedeemCode(redeemCode: RedeemCode,sender: CommandSender): RCXPlaceHolder {
+        fun applyByRedeemCode(redeemCode: RedeemCode, sender: CommandSender): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
                 player = sender.name,
@@ -189,7 +190,7 @@ data class RCXPlaceHolder(
         }
 
         @Deprecated("This will be replaced by apply(RedeemType) method")
-        fun applyByRedeemTemplate(template: RedeemTemplate,sender: CommandSender): RCXPlaceHolder {
+        fun applyByRedeemTemplate(template: RedeemTemplate, sender: CommandSender): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
                 player = sender.name,
@@ -220,10 +221,10 @@ data class RCXPlaceHolder(
             )
         }
 
-        fun apply(redeemType: RedeemType,sender: CommandSender): RCXPlaceHolder {
+        fun apply(redeemType: RedeemType, sender: CommandSender): RCXPlaceHolder {
             return when (redeemType) {
-                is RedeemCode -> applyByRedeemCode(redeemType,sender)
-                is RedeemTemplate -> applyByRedeemTemplate(redeemType,sender)
+                is RedeemCode -> applyByRedeemCode(redeemType, sender)
+                is RedeemTemplate -> applyByRedeemTemplate(redeemType, sender)
             }
         }
 
