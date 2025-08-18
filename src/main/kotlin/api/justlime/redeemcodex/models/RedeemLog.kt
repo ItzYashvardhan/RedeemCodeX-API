@@ -1,8 +1,10 @@
-package api.justlime.redeemcodex.models 
+package api.justlime.redeemcodex.models
+
+import java.util.UUID
 
 data class RedeemLog (
     val id: Int,
-    val playerUUID: String,
+    val playerUUID: UUID,
     val code: String,
     val redeemedAt: Long
 )
