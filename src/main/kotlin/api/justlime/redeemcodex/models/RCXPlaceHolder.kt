@@ -263,6 +263,7 @@ data class RCXPlaceHolder(
             "{redeemed_by}" to placeholder.redeemedBy,
             "{usedBy}" to placeholder.usedBy,
             "{code_cooldown}" to placeholder.codeCooldown,
+            "result" to placeholder.result,
 
             //Template
             "{digit}" to placeholder.digit,
