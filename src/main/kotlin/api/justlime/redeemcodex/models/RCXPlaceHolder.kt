@@ -231,16 +231,17 @@ data class RCXPlaceHolder(
             }
         }
 
-        fun applyByCoupon(redeemCoupon: RedeemCoupon,sender: CommandSender): RCXPlaceHolder {
+        fun apply(redeemCoupon: RedeemCoupon,sender: CommandSender): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
                 player = sender.name,
                 code = redeemCoupon.code,
                 giftedAt = redeemCoupon.giftedAt.toString(),
             )
+
         }
 
-        fun applyByLog(redeemLog: RedeemLog,sender: CommandSender): RCXPlaceHolder {
+        fun apply(redeemLog: RedeemLog,sender: CommandSender): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
                 player = sender.isOp.toString(),
@@ -314,6 +315,10 @@ data class RCXPlaceHolder(
             "{sound}" to placeholder.sound,
             "{sound_volume}" to placeholder.soundVolume,
             "{sound_pitch}" to placeholder.soundPitch,
+
+            //Coupons And Logs
+            "{gifted_date}" to placeholder.giftedAt,
+            "{redeemed_date}" to placeholder.redeemedAt,
 
             //Output
             "{renewed_player}" to placeholder.renewedPlayer,
