@@ -163,7 +163,7 @@ data class RCXPlaceHolder(
                 redemptionLimit = redeemCode.redemption.toString(),
                 playerLimit = redeemCode.playerLimit.toString(),
                 permission = redeemCode.permission,
-                pin = "-1",
+                pin = redeemCode.pin.toString(),
                 target = redeemCode.target.toString(),
                 usedBy = redeemCode.usedBy.map {
                     "${it.key} = ${it.value}"
@@ -172,7 +172,6 @@ data class RCXPlaceHolder(
                 cooldown = redeemCode.cooldown,
                 minLength = "3",
                 maxLength = "25",
-                digit = "5",
                 isExpired = JTimeUtils.isExpired(redeemCode).toString(),
                 command = redeemCode.commands.toString().removeSurrounding("[", "]").trim(),
                 chatMessage = redeemCode.messages.text.toString().removeSurrounding("[", "]").trim(),
@@ -181,7 +180,7 @@ data class RCXPlaceHolder(
                 chatTitleFadeIn = redeemCode.messages.title.fadeIn.toString(),
                 chatTitleFadeOut = redeemCode.messages.title.fadeOut.toString(),
                 chatTitleStay = redeemCode.messages.title.stay.toString(),
-                chatActionBar = redeemCode.messages.actionbar.toString(),
+                chatActionBar = redeemCode.messages.actionbar,
                 sound = redeemCode.sound.sound.toString(),
                 soundVolume = redeemCode.sound.volume.toString(),
                 soundPitch = redeemCode.sound.pitch.toString(),
@@ -202,7 +201,7 @@ data class RCXPlaceHolder(
                 redemptionLimit = template.redemption.toString(),
                 playerLimit = template.playerLimit.toString(),
                 permission = template.permission,
-                pin = "-1",
+                pin = template.pin.toString(),
                 minLength = "3",
                 maxLength = "25",
                 digit = "5",
@@ -214,7 +213,7 @@ data class RCXPlaceHolder(
                 chatTitleFadeOut = template.messages.title.fadeOut.toString(),
                 chatTitleStay = template.messages.title.stay.toString(),
                 chatActionBar = template.messages.actionbar,
-                sound = template.sound.sound ?: "None",
+                sound = template.sound.sound.toString(),
                 soundVolume = template.sound.volume.toString(),
                 soundPitch = template.sound.pitch.toString(),
                 condition = template.condition
