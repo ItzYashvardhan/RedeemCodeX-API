@@ -33,12 +33,14 @@
 
 package api.justlime.redeemcodex.models
 
+import api.justlime.redeemcodex.enums.RedeemCategory
 import org.bukkit.inventory.ItemStack
 import java.sql.Timestamp
 import java.time.Instant
 import java.util.UUID
 
 data class RedeemCode(
+    override var redeemCategory: RedeemCategory = RedeemCategory.RedeemCode,
     var code: String,
     override var enabledStatus: Boolean,
 

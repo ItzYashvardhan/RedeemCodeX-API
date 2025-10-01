@@ -35,9 +35,11 @@
 package api.justlime.redeemcodex.models
 
 import api.justlime.redeemcodex.RedeemXAPI
+import api.justlime.redeemcodex.enums.RedeemCategory
 import org.bukkit.inventory.ItemStack
 
 data class RedeemTemplate(
+    override var redeemCategory: RedeemCategory = RedeemCategory.RedeemTemplate,
     override val template: String,
     var digit: Int = 5,
 
@@ -78,7 +80,6 @@ data class RedeemTemplate(
 
     override var rewards: MutableList<ItemStack>,
     var syncRewards: Boolean,
-
 
     override var condition: String,
     var syncCondition: Boolean,

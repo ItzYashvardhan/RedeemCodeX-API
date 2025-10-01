@@ -32,10 +32,12 @@
 
 package api.justlime.redeemcodex.models
 
+import api.justlime.redeemcodex.enums.RedeemCategory
 import org.bukkit.inventory.ItemStack
 
 sealed interface RedeemType {
 
+    var redeemCategory: RedeemCategory
     var enabledStatus: Boolean
 
     val template: String
