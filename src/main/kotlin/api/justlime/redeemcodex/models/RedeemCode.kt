@@ -40,7 +40,7 @@ import java.time.Instant
 import java.util.UUID
 
 data class RedeemCode(
-    override var redeemCategory: RedeemCategory = RedeemCategory.RedeemCode,
+    override var category: RedeemCategory = RedeemCategory.RedeemCode,
     var code: String,
     override var enabledStatus: Boolean,
 

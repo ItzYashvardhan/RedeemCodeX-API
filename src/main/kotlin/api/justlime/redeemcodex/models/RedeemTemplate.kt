@@ -39,7 +39,7 @@ import api.justlime.redeemcodex.enums.RedeemCategory
 import org.bukkit.inventory.ItemStack
 
 data class RedeemTemplate(
-    override var redeemCategory: RedeemCategory = RedeemCategory.RedeemTemplate,
+    override var category: RedeemCategory = RedeemCategory.RedeemTemplate,
     override val template: String,
     var digit: Int = 5,
 

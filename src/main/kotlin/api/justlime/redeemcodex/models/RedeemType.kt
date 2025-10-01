@@ -37,7 +37,7 @@ import org.bukkit.inventory.ItemStack
 
 sealed interface RedeemType {
 
-    var redeemCategory: RedeemCategory
+    var category: RedeemCategory
     var enabledStatus: Boolean
 
     val template: String
