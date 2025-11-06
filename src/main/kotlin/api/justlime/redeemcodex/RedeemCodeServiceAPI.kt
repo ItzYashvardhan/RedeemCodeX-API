@@ -43,6 +43,7 @@ import api.justlime.redeemcodex.models.RedeemTemplate
  * RedeemCodeServiceAPI defines the core contract for managing redeemable codes.
  * It includes functionalities for code generation, retrieval, deletion, and insertion.
  */
+@Deprecated("In favour of RedeemService")
 interface RedeemCodeServiceAPI {
 
     /**

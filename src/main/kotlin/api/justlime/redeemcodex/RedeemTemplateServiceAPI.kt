@@ -44,6 +44,7 @@ import api.justlime.redeemcodex.models.RedeemTemplate
  * Templates typically define rules such as generation behavior
  * for redeem codes.
  */
+@Deprecated("In favour of RedeemService")
 interface RedeemTemplateServiceAPI {
 
     /**
