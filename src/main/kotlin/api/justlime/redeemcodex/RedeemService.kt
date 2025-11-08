@@ -49,14 +49,17 @@ interface RedeemService {
     fun get(redeemCategory: RedeemCategory): List<RedeemType>
 
     /**Get list of code or template from database or config file using list of code name or template name**/
-    fun get(redeemCategory: RedeemCategory, name: List<String>): List<RedeemType>
+    fun get(redeemCategory: RedeemCategory, names: List<String>): List<RedeemType>
 
-    /*Get list of code from database by their template name*/
+    /**Get list of code from database by their template name.
+     * @param template Give template name here
+     * @param lockedStatus Weather to get only sync code or vice versa use null to get all codes which inherit template*/
     fun get(template: String, lockedStatus: Boolean? = null): List<RedeemCode>
 
     /**Get all redeemable codes (plain text) from database*/
     fun getCodes(): Set<String>
 
+    /**Get all expired redeem codes from database*/
     fun getExpiredCodes(): List<RedeemCode>
 
     //-----Create/Delete Method Operation-----//
@@ -74,7 +77,7 @@ interface RedeemService {
     fun delete(redeemCategory: RedeemCategory, name: String, onDelete: (success: Boolean) -> Unit = {})
 
     /**Note: When deleting template its codes will not be affected by this operation!*/
-    fun delete(redeemCategory: RedeemCategory, name: List<String>, onDelete: (success: Boolean) -> Unit = {})
+    fun delete(redeemCategory: RedeemCategory, names: List<String>, onDelete: (success: Boolean) -> Unit = {})
 
     /**Note: Template will not be affected by this operation!*/
     fun deleteCodesByTemplate(template: String, onDelete: (success: Boolean) -> Unit)
@@ -102,17 +105,17 @@ interface RedeemService {
     fun setExpiry(redeemType: RedeemType, duration: String, onUpdate: (success: Boolean) -> Unit = {})
     fun setCondition(redeemType: RedeemType, condition: String?, onUpdate: (success: Boolean) -> Unit = {})
 
-    /**Set Commands*/
+    /**Manage Commands*/
     fun addCommand(redeemType: RedeemType, command: String, onUpdate: (success: Boolean) -> Unit = {})
     fun setCommand(redeemType: RedeemType, id: Int, command: String, onUpdate: (success: Boolean) -> Unit)
     fun removeCommand(redeemType: RedeemType, id: Int, onUpdate: (success: Boolean) -> Unit = {})
 
-    /**Set Targets*/
+    /**Manage Targets*/
     fun addTarget(redeemCode: RedeemCode, target: List<UUID>, onUpdate: (success: Boolean) -> Unit = {})
     fun setTarget(redeemCode: RedeemCode, target: List<UUID>, onUpdate: (success: Boolean) -> Unit = {})
     fun removeTarget(redeemCode: RedeemCode, target: List<UUID>, onUpdate: (success: Boolean) -> Unit = {})
 
-    /**Set Messages*/
+    /**Edit Messages*/
     fun addMessage(redeemType: RedeemType, message: String, onUpdate: (success: Boolean) -> Unit = {})
     fun setMessage(redeemType: RedeemType, id: Int, message: String, onUpdate: (success: Boolean) -> Unit = {})
     fun removeMessage(redeemType: RedeemType, id: Int, onUpdate: (success: Boolean) -> Unit = {})
