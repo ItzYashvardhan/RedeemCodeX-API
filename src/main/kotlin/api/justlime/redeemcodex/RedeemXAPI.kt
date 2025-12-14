@@ -36,8 +36,8 @@
 package api.justlime.redeemcodex
 
 @Suppress("unused")
-object RedeemXAPI {
-    lateinit var service: RedeemService
-    lateinit var code: RedeemCodeServiceAPI
-    lateinit var template: RedeemTemplateServiceAPI
+object RedeemX {
+    lateinit var service: IRedeemService
+
+    lateinit var gui: IRedeemGUI
 }

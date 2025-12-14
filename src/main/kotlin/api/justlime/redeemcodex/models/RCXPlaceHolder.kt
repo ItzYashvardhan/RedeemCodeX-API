@@ -35,11 +35,11 @@
 
 package api.justlime.redeemcodex.models
 
-import api.justlime.redeemcodex.RedeemXAPI
 import api.justlime.redeemcodex.utilities.JTimeUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
+@Suppress("unused")
 data class RCXPlaceHolder(
     var sender: CommandSender = Bukkit.getConsoleSender(),
     var player: String = "CONSOLE",
@@ -102,61 +102,39 @@ data class RCXPlaceHolder(
     var dateFormat: String = "yyyy-MM-dd HH:mm:ss",
 
     //Coupons
-    var redeemedAt : String = "N/A",
+    var redeemedAt: String = "N/A",
     var giftedAt: String = "N/A"
 
 ) {
     companion object {
-        fun fetchByDB(code: String): RCXPlaceHolder {
-            val redeemCode: RedeemCode = RedeemXAPI.code.getCode(code) ?: return RCXPlaceHolder(player = "CONSOLE", code = code)
+        fun apply(redeemType: RedeemType, sender: CommandSender): RCXPlaceHolder {
+            return when (redeemType) {
+                is RedeemCode -> applyByRedeemCode(redeemType, sender)
+                is RedeemTemplate -> applyByRedeemTemplate(redeemType, sender)
+            }
+        }
 
-            val durationSeconds = redeemCode.duration.removeSuffix("s").toIntOrNull() ?: 0
-            val days = durationSeconds / 86400
-            val hours = (durationSeconds % 86400) / 3600
-            val minutes = (durationSeconds % 3600) / 60
-            val seconds = durationSeconds % 60
-
-            val formattedDuration = buildString {
-                if (days > 0) append("${days}d ")
-                if (hours > 0) append("${hours}h ")
-                if (minutes > 0) append("${minutes}m ")
-                if (seconds > 0 || isEmpty()) append("${seconds}s")
-            }.trim()
-
+        fun apply(redeemCoupon: RedeemCoupon, sender: CommandSender): RCXPlaceHolder {
             return RCXPlaceHolder(
-                player = "CONSOLE",
-                code = code,
-                command = redeemCode.commands.toString().removeSurrounding("{", "}").trim(),
-                duration = if (redeemCode.duration.isEmpty()) "none" else formattedDuration,
-                status = redeemCode.enabledStatus.toString(),
-                redemptionLimit = redeemCode.redemption.toString(),
-                playerLimit = redeemCode.playerLimit.toString(),
-                permission = redeemCode.permission,
-                pin = "-1",
-                target = redeemCode.target.toString(),
-                usedBy = redeemCode.usedBy.toString(),
-                template = redeemCode.template,
-                templateSync = redeemCode.sync.toString(),
-                cooldown = redeemCode.cooldown,
-                isExpired = JTimeUtils.isExpired(redeemCode).toString(),
-                minLength = "3",
-                maxLength = "25",
-                digit = "5",
-                chatMessage = redeemCode.messages.text.toString().removeSurrounding("[", "]").trim(),
-                chatTitle = redeemCode.messages.title.title,
-                chatSubTitle = redeemCode.messages.title.subTitle,
-                chatTitleFadeIn = redeemCode.messages.title.fadeIn.toString(),
-                chatTitleFadeOut = redeemCode.messages.title.fadeOut.toString(),
-                chatTitleStay = redeemCode.messages.title.stay.toString(),
-                chatActionBar = redeemCode.messages.actionbar,
-                sound = redeemCode.sound.sound.toString(),
-                soundVolume = redeemCode.sound.volume.toString(),
-                soundPitch = redeemCode.sound.pitch.toString(),
+                sender = sender,
+                player = sender.name,
+                code = redeemCoupon.code,
+                giftedAt = redeemCoupon.giftedAt.toString(),
+            )
+
+        }
+
+        fun apply(redeemLog: RedeemLog, sender: CommandSender): RCXPlaceHolder {
+            return RCXPlaceHolder(
+                sender = sender,
+                player = sender.isOp.toString(),
+                code = redeemLog.code,
+                template = redeemLog.template,
+                redeemedAt = redeemLog.redeemedAt.toString(),
             )
         }
 
-        @Deprecated("This will be replaced by apply(RedeemType) method")
-        fun applyByRedeemCode(redeemCode: RedeemCode, sender: CommandSender): RCXPlaceHolder {
+        private fun applyByRedeemCode(redeemCode: RedeemCode, sender: CommandSender): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
                 player = sender.name,
@@ -192,8 +170,7 @@ data class RCXPlaceHolder(
             )
         }
 
-        @Deprecated("This will be replaced by apply(RedeemType) method")
-        fun applyByRedeemTemplate(template: RedeemTemplate, sender: CommandSender): RCXPlaceHolder {
+        private fun applyByRedeemTemplate(template: RedeemTemplate, sender: CommandSender): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
                 player = sender.name,
@@ -224,35 +201,10 @@ data class RCXPlaceHolder(
             )
         }
 
-        fun apply(redeemType: RedeemType, sender: CommandSender): RCXPlaceHolder {
-            return when (redeemType) {
-                is RedeemCode -> applyByRedeemCode(redeemType, sender)
-                is RedeemTemplate -> applyByRedeemTemplate(redeemType, sender)
-            }
-        }
+    }
 
-        fun apply(redeemCoupon: RedeemCoupon,sender: CommandSender): RCXPlaceHolder {
-            return RCXPlaceHolder(
-                sender = sender,
-                player = sender.name,
-                code = redeemCoupon.code,
-                giftedAt = redeemCoupon.giftedAt.toString(),
-            )
-
-        }
-
-        fun apply(redeemLog: RedeemLog,sender: CommandSender): RCXPlaceHolder {
-            return RCXPlaceHolder(
-                sender = sender,
-                player = sender.isOp.toString(),
-                code = redeemLog.code,
-                template = redeemLog.template,
-                redeemedAt = redeemLog.redeemedAt.toString(),
-            )
-        }
-
-        //warp to map
-
+    fun toMap(): Map<String, String> {
+        return rcxPlaceholderMap()
     }
 
     private fun rcxPlaceholderMap(): Map<String, String> {
@@ -325,10 +277,6 @@ data class RCXPlaceHolder(
             "{status}" to placeholder.status
         )
 
-    }
-
-    fun toMap(): Map<String, String> {
-        return rcxPlaceholderMap()
     }
 
 }
