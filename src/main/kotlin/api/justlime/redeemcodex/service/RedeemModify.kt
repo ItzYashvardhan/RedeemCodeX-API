@@ -28,16 +28,8 @@
  * For inquiries,
  * Email: itsyashvardhan76@gmail.com
  * Discord: https://discord.gg/rVsUJ4keZN
- *
- *
  */
 
+package api.justlime.redeemcodex.service
 
-package api.justlime.redeemcodex
-
-@Suppress("unused")
-object RedeemX {
-    lateinit var service: IRedeemService
-
-    lateinit var gui: IRedeemGUI
-}
+interface RedeemModify {}

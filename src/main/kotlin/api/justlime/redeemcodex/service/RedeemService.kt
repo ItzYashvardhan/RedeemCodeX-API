@@ -30,14 +30,14 @@
  * Discord: https://discord.gg/rVsUJ4keZN
  */
 
-package api.justlime.redeemcodex
+package api.justlime.redeemcodex.service
 
 import api.justlime.redeemcodex.enums.RedeemCategory
 import api.justlime.redeemcodex.models.RedeemCode
 import api.justlime.redeemcodex.models.RedeemTemplate
 import api.justlime.redeemcodex.models.RedeemType
 import org.bukkit.command.CommandSender
-import java.util.UUID
+import java.util.*
 
 /**
  * Interface for interacting with the RedeemCodeX plugin's core services.
@@ -45,7 +45,13 @@ import java.util.UUID
  * including creation, retrieval, updating, and deletion, as well as
  * specific property modifications.
  */
-interface IRedeemService {
+interface RedeemService {
+
+
+    val create: RedeemCreate
+    val modify: RedeemModify
+    val delete: RedeemDelete
+
 
     // --- GET/FETCH OPERATIONS (All Async with Callback) ---
 
@@ -57,16 +63,11 @@ interface IRedeemService {
 
     fun get(template: String, lockedStatus: Boolean?, redeemType: (List<RedeemType>) -> Unit)
 
-    fun getCodes(redeemCodes: (Set<String>) -> Unit)
+    fun getCodes(redeemCodes: (List<String>) -> Unit)
 
-    fun getExpiredCodes(sender: CommandSender, redeemCode: (List<RedeemCode>) -> Unit)
+    fun getExpiredCodes(sender: CommandSender, redeemCode: (List<String>) -> Unit)
 
-
-    // --- CREATE/UPDATE OPERATIONS ---
-
-    fun create(sender: CommandSender, redeemType: RedeemType, onCreate: (success: Boolean) -> Unit)
-
-    fun create(sender: CommandSender, redeemTypes: List<RedeemType>, onCreate: (success: Boolean) -> Unit)
+    fun isTemplateExist(template: String): Boolean
 
     fun update(sender: CommandSender, redeemType: RedeemType, onUpdate: (success: Boolean) -> Unit)
 

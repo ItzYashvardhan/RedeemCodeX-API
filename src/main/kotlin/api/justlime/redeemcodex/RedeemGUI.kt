@@ -36,12 +36,13 @@ import api.justlime.redeemcodex.enums.RedeemCategory
 import api.justlime.redeemcodex.models.RedeemCode
 import api.justlime.redeemcodex.models.RedeemType
 import org.bukkit.entity.Player
+import java.util.*
 
 /**
  *    Interface for managing RedeemCodeX plugin's user interfaces.
  * This interface provides methods to open various GUI menus for managing redeem codes, templates, and coupons.
  **/
-interface IRedeemGUI {
+interface RedeemGUI {
 
     /**
      * Opens the main selection menu (Redeem Code, Template, Voucher, etc.).
@@ -59,50 +60,55 @@ interface IRedeemGUI {
     /**
      * Opens the main editing menu for a specific RedeemType.
      */
-    fun openEditorMenu(viewer: Player, redeemType: RedeemType, pageId: Int)
+    fun openEditorGUI(viewer: Player, redeemType: RedeemType, pageId: Int)
 
     /**
      * Opens the restrictions/limits editor menu.
      */
-    fun openRestrictionMenu(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
+    fun openRestrictionGUI(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
 
     /**
      * Opens the duration/expiry editor menu.
      */
-    fun openDurationMenu(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
+    fun openDurationGUI(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
 
     /**
      * Opens the command list editor menu.
      */
-    fun openCommandEditor(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
+    fun openCommandGUI(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
 
     /**
      * Opens the message editor menu (Chat, Actionbar, Title).
      */
-    fun openMessageMenu(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
+    fun openMessageGUI(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
 
     /**
      * Opens the target player editor menu for a RedeemCode.
      */
-    fun openTargetMenu(viewer: Player, redeemCode: RedeemCode, pageId: Int)
+    fun openTargetGUI(viewer: Player, redeemCode: RedeemCode, pageId: Int)
 
     /**
      * Opens the rewards editor menu.
      */
-    fun openRewardEditor(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
+    fun openRewardGUI(viewer: Player, redeemType: RedeemType, pageId: Int = 1)
 
     /**
      * Opens the synchronizer property manager page (for Templates).
      */
-    fun openSynchronizerManager(viewer: Player, redeemType: RedeemType, pageId: Int)
+    fun openSynchronizerGUI(viewer: Player, redeemType: RedeemType, pageId: Int)
 
     /**
      * Opens the menu showing coupons available for the player.
      */
-    fun openAvailableCouponMenu(viewer: Player)
+    fun openAvailableCouponGUI(viewer: Player)
+
+    fun openOtherAvailableCouponGUI(viewer: Player, targetUUID: UUID)
 
     /**
      * Opens the menu showing the player's coupon redemption history.
      */
-    fun openHistoryCouponMenu(viewer: Player)
+    fun openCouponHistoryGUI(viewer: Player)
+
+    fun openOtherCouponHistoryGUI(viewer: Player, targetUUID: UUID)
+
 }

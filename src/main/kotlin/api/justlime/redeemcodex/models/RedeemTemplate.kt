@@ -34,7 +34,6 @@
 
 package api.justlime.redeemcodex.models
 
-import api.justlime.redeemcodex.RedeemXAPI
 import api.justlime.redeemcodex.enums.RedeemCategory
 import org.bukkit.inventory.ItemStack
 
@@ -86,13 +85,7 @@ data class RedeemTemplate(
 ) : RedeemType {
     object Create {
         fun redeemTemplate(template: String): RedeemTemplate {
-            if (RedeemXAPI.template.isTemplateExist(template)) {
-                throw IllegalStateException("TEMPLATE ALREADY EXIST")
-            }
-            val template = loadDefaultTemplateValues(template)
-            template.sync = true
-            RedeemXAPI.template.upsertTemplate(template)
-            return template
+            return loadDefaultTemplateValues(template)
         }
 
         private fun loadDefaultTemplateValues(template: String): RedeemTemplate {

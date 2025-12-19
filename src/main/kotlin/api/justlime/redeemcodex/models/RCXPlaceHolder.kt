@@ -39,6 +39,7 @@ import api.justlime.redeemcodex.utilities.JTimeUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
+//@Deprecated("In future This can split into 3 parts for simplicity ")
 @Suppress("unused")
 data class RCXPlaceHolder(
     var sender: CommandSender = Bukkit.getConsoleSender(),
