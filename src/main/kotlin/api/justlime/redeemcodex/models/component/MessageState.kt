@@ -28,31 +28,15 @@
  * For inquiries,
  * Email: itsyashvardhan76@gmail.com
  * Discord: https://discord.gg/rVsUJ4keZN
+ *
+ *
  */
 
-package api.justlime.redeemcodex.dao
 
-import api.justlime.redeemcodex.models.component.JTitle
-import org.bukkit.command.CommandSender
+package api.justlime.redeemcodex.models.component
 
-interface RedeemMessage {
-
-    fun getMessage(path: String): String
-
-    fun getMessages(path: String): List<String>
-
-    fun getTemplateMessage(path: String): String
-
-    fun getTitle(path: String, placeHolder: Map<String, String>): JTitle
-
-    fun getActionbar(path: String): String
-
-    fun sendMessage(sender: CommandSender, path: String, placeHolder: Map<String, String>)
-
-    //Send message with conversion to gradient
-    fun sendTextMessage(sender: CommandSender, text: String, placeHolder: MutableMap<String, String>)
-
-    //Send message without conversion to gradient
-    fun sendPlainMessage(sender: CommandSender, text: String, placeHolder: MutableMap<String, String>)
-
-}
+data class MessageState(
+    var text: MutableList<String>,
+    var actionbar: String,
+    var title: JTitle
+)

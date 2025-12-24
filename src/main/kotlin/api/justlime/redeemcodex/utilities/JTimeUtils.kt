@@ -32,7 +32,7 @@
 
 package api.justlime.redeemcodex.utilities
 
-import api.justlime.redeemcodex.models.RedeemCode
+import api.justlime.redeemcodex.models.core.RedeemCode
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.time.Instant

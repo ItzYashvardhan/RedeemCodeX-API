@@ -30,29 +30,15 @@
  * Discord: https://discord.gg/rVsUJ4keZN
  */
 
-package api.justlime.redeemcodex.dao
+package api.justlime.redeemcodex.models.core
 
-import api.justlime.redeemcodex.models.component.JTitle
-import org.bukkit.command.CommandSender
+import java.sql.Timestamp
+import java.util.*
 
-interface RedeemMessage {
-
-    fun getMessage(path: String): String
-
-    fun getMessages(path: String): List<String>
-
-    fun getTemplateMessage(path: String): String
-
-    fun getTitle(path: String, placeHolder: Map<String, String>): JTitle
-
-    fun getActionbar(path: String): String
-
-    fun sendMessage(sender: CommandSender, path: String, placeHolder: Map<String, String>)
-
-    //Send message with conversion to gradient
-    fun sendTextMessage(sender: CommandSender, text: String, placeHolder: MutableMap<String, String>)
-
-    //Send message without conversion to gradient
-    fun sendPlainMessage(sender: CommandSender, text: String, placeHolder: MutableMap<String, String>)
-
-}
+data class RedeemLog (
+    val id: Int,
+    val playerUUID: UUID,
+    val code: String,
+    val template: String,
+    val redeemedAt: Timestamp
+)

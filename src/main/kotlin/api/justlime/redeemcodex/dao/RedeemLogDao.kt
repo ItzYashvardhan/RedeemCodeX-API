@@ -32,8 +32,8 @@
 
 package api.justlime.redeemcodex.dao
 
-import api.justlime.redeemcodex.models.RedeemCode
-import api.justlime.redeemcodex.models.RedeemLog
+import api.justlime.redeemcodex.models.core.RedeemCode
+import api.justlime.redeemcodex.models.core.RedeemLog
 import java.util.*
 
 /**

@@ -28,18 +28,20 @@
  * For inquiries,
  * Email: itsyashvardhan76@gmail.com
  * Discord: https://discord.gg/rVsUJ4keZN
- *
- *
  */
 
+package api.justlime.redeemcodex.models.placeholder
 
-package api.justlime.redeemcodex.models
-
+import api.justlime.redeemcodex.models.core.RedeemCode
+import api.justlime.redeemcodex.models.core.RedeemCoupon
+import api.justlime.redeemcodex.models.core.RedeemLog
+import api.justlime.redeemcodex.models.core.RedeemTemplate
+import api.justlime.redeemcodex.models.core.RedeemType
 import api.justlime.redeemcodex.utilities.JTimeUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
-//@Deprecated("In future This can split into 3 parts for simplicity ")
+//@Deprecated("In future This can split into multiple parts for simplicity ")
 @Suppress("unused")
 data class RCXPlaceHolder(
     var sender: CommandSender = Bukkit.getConsoleSender(),

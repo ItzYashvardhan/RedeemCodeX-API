@@ -35,21 +35,33 @@
 
 package api.justlime.redeemcodex
 
-import api.justlime.redeemcodex.dao.PlayerService
+import api.justlime.redeemcodex.dao.CouponNotifierDao
 import api.justlime.redeemcodex.dao.RedeemCodeDao
 import api.justlime.redeemcodex.dao.RedeemCouponDao
 import api.justlime.redeemcodex.dao.RedeemLogDao
 import api.justlime.redeemcodex.dao.RedeemMessage
 import api.justlime.redeemcodex.dao.RedeemTemplateDao
-import api.justlime.redeemcodex.service.RedeemService
+import api.justlime.redeemcodex.service.ICouponNotifier
+import api.justlime.redeemcodex.service.RedeemCoupon
+import api.justlime.redeemcodex.service.RedeemCreate
+import api.justlime.redeemcodex.service.RedeemDelete
+import api.justlime.redeemcodex.service.RedeemModify
+import api.justlime.redeemcodex.utilities.PlayerService
 
 object RedeemX {
-    lateinit var service: RedeemService
+    lateinit var create: RedeemCreate
+    lateinit var modify: RedeemModify
+    lateinit var delete: RedeemDelete
     lateinit var message: RedeemMessage
     lateinit var playerService: PlayerService
-    lateinit var gui: RedeemGUI
     lateinit var redeemLogDao: RedeemLogDao
-    lateinit var redeemCouponDao: RedeemCouponDao
     lateinit var redeemCodeDao: RedeemCodeDao
     lateinit var redeemTemplateDao: RedeemTemplateDao
+    lateinit var gui: RedeemGUI
+
+    lateinit var coupon: RedeemCoupon
+    lateinit var notifier: ICouponNotifier
+    lateinit var redeemCouponDao: RedeemCouponDao
+    lateinit var couponNotifierDao: CouponNotifierDao
+
 }

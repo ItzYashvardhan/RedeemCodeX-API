@@ -30,14 +30,16 @@
  * Discord: https://discord.gg/rVsUJ4keZN
  */
 
-
-package api.justlime.redeemcodex.models
+package api.justlime.redeemcodex.models.core
 
 import api.justlime.redeemcodex.enums.RedeemCategory
+import api.justlime.redeemcodex.models.component.JTitle
+import api.justlime.redeemcodex.models.component.MessageState
+import api.justlime.redeemcodex.models.component.SoundState
 import org.bukkit.inventory.ItemStack
 import java.sql.Timestamp
 import java.time.Instant
-import java.util.UUID
+import java.util.*
 
 data class RedeemCode(
     override var category: RedeemCategory = RedeemCategory.RedeemCode,

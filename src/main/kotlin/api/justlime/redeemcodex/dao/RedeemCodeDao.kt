@@ -2,8 +2,8 @@ package api.justlime.redeemcodex.dao
 
 import api.justlime.redeemcodex.enums.SortDirection
 import api.justlime.redeemcodex.enums.SortProperty
-import api.justlime.redeemcodex.models.RedeemCode
-import api.justlime.redeemcodex.models.RedeemTemplate
+import api.justlime.redeemcodex.models.core.RedeemCode
+import api.justlime.redeemcodex.models.core.RedeemTemplate
 
 /**
  * DAO interface for managing `redeem_codes` in the database.
@@ -137,7 +137,7 @@ interface RedeemCodeDao {
      * @param redeemCode The code object with updated values.
      * @param callback Called with `true` if the update was successful.
      */
-    fun updateCode(redeemCode: RedeemCode, callback: (success: Boolean) -> Unit)
+    fun update(redeemCode: RedeemCode, callback: (success: Boolean) -> Unit)
 
     /**
      * Asynchronously updates multiple existing codes in a batch transaction.
@@ -161,14 +161,16 @@ interface RedeemCodeDao {
      * @param codes The list of identifiers to remove.
      * @param callback Called with `true` if the batch deletion was successful.
      */
-    fun removeCodes(codes: List<String>, callback: (success: Boolean) -> Unit)
+    fun removeCodes(codes: List<String>, callback: (remainingCodes: List<String>) -> Unit)
+
+    fun removeCodesByTemplate(template: String, callback: (deleteCodes: List<String>, remainingCodes: List<String>) -> Unit)
 
     /**
      * Asynchronously removes **ALL** codes from the database.
      *
      * @param callback Called with `true` if the operation was successful.
      */
-    fun removeAllCodes(callback: (success: Boolean) -> Unit)
+    fun removeAllCodes(callback: (remainingCodes: List<String>) -> Unit)
 
     // =========================================================================
     //  CACHE & LOGIC (Synchronous / In-Memory)

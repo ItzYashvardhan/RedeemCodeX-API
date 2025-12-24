@@ -32,9 +32,9 @@
 
 package api.justlime.redeemcodex.service
 
-import api.justlime.redeemcodex.models.RedeemCode
-import api.justlime.redeemcodex.models.RedeemTemplate
-import api.justlime.redeemcodex.models.RedeemType
+import api.justlime.redeemcodex.models.core.RedeemCode
+import api.justlime.redeemcodex.models.core.RedeemTemplate
+import api.justlime.redeemcodex.models.core.RedeemType
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
@@ -112,10 +112,35 @@ interface RedeemCreate {
      */
     fun create(digit: Int, template: String, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (code: RedeemCode?) -> Unit = {})
 
+    /**
+     * Generates and creates **multiple random codes** of a specific length.
+     *
+     * @param digit The length of the generated codes.
+     * @param redeemTemplate The template object to use.
+     * @param amount The number of codes to generate.
+     * @param codes An optional list to add the generated codes to.
+     * @param onCreate Callback containing the list of generated codes.
+     */
     fun create(digit: Int, redeemTemplate: RedeemTemplate, amount: Int, codes: List<String> = mutableListOf(), sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (codes: List<RedeemCode>) -> Unit = {})
 
+    /**
+     * Generates and creates **multiple random codes** of a specific length using a template name.
+     *
+     * @param digit The length of the generated codes.
+     * @param template The name of the template.
+     * @param amount The number of codes to generate.
+     * @param codes An optional list to add the generated codes to.
+     * @param onCreate Callback containing the list of generated codes.
+     */
     fun create(digit: Int, template: String, amount: Int, codes: List<String> = mutableListOf(), sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (codes: List<RedeemCode>) -> Unit = {})
 
+    /**
+     * Creates a RedeemTemplate from a given template name.
+     *
+     * @param template The name of the template to create.
+     * @param sender The command sender for logging/feedback.
+     * @param onCreate Callback executed with `true` if creation was successful.
+     */
     fun create(template: String, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (success: Boolean) -> Unit = {})
 
 }

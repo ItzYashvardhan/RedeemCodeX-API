@@ -32,11 +32,40 @@
  *
  */
 
+package api.justlime.redeemcodex.models.component
 
-package api.justlime.redeemcodex.models
+import org.bukkit.Sound
+import org.bukkit.entity.Player
+import java.io.Serializable
 
-data class MessageState(
-    var text: MutableList<String>,
-    var actionbar: String,
-    var title: JTitle
-)
+/**
+ * A data class to hold the state of a sound to be played.
+ *
+ * @param sound The name of the Bukkit Sound enum.
+ * @param volume The volume of the sound, from 0.0 to 1.0.
+ * @param pitch The pitch of the sound, from 0.5 to 2.0.
+ */
+data class SoundState(
+    var sound: String? = null,
+    var volume: Float = 1f,
+    var pitch: Float = 1f
+) : Serializable {
+
+    companion object {
+        // Cache all Bukkit sounds in a map for high-performance lookups.
+        private val SOUND_MAP: Map<String, Sound> by lazy {
+            enumValues<Sound>().associateBy { it.name.uppercase() }
+        }
+    }
+
+    /**
+     * Plays the sound for a specific player at their location.
+     *
+     * @param player The player who will hear the sound.
+     */
+    fun playSound(player: Player) {
+        if (sound.isNullOrBlank()) return
+        val resolvedSound = SOUND_MAP[sound!!.uppercase()] ?: return
+        player.playSound(player.location, resolvedSound, volume, pitch)
+    }
+}

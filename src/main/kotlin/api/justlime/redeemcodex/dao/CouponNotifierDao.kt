@@ -28,16 +28,21 @@
  * For inquiries,
  * Email: itsyashvardhan76@gmail.com
  * Discord: https://discord.gg/rVsUJ4keZN
- *
- *
  */
 
-package api.justlime.redeemcodex.models
+package api.justlime.redeemcodex.dao
 
-data class JTitle(
-    var title: String = "",
-    var subTitle: String = "",
-    var fadeIn: Long = 10, //In Ticks
-    var stay: Long = 70,
-    var fadeOut: Long = 10
-)
+import api.justlime.redeemcodex.models.core.CouponNotifier
+import java.util.*
+
+interface CouponNotifierDao {
+
+//    fun get(uuid: UUID): List<CouponNotifier>
+    fun get(uuid: UUID, callback: (List<CouponNotifier>) -> Unit)
+
+    fun add(notifier: CouponNotifier, callback: (Boolean) -> Unit = {})
+    fun add(notifiers: List<CouponNotifier>, callback: (Boolean) -> Unit = {})
+    fun remove(uuid: UUID, callback: (Boolean) -> Unit = {})
+    fun removeSingle(uuid: UUID, code: String, callback: (Boolean) -> Unit = {})
+    fun removeAll(callback: (Boolean) -> Unit = {})
+}

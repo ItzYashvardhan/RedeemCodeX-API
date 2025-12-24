@@ -33,8 +33,8 @@
 package api.justlime.redeemcodex
 
 import api.justlime.redeemcodex.enums.RedeemCategory
-import api.justlime.redeemcodex.models.RedeemCode
-import api.justlime.redeemcodex.models.RedeemType
+import api.justlime.redeemcodex.models.core.RedeemCode
+import api.justlime.redeemcodex.models.core.RedeemType
 import org.bukkit.entity.Player
 import java.util.*
 

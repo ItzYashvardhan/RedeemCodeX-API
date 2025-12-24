@@ -33,8 +33,8 @@
 package api.justlime.redeemcodex.dao
 
 import api.justlime.redeemcodex.enums.SortDirection
-import api.justlime.redeemcodex.models.RCXPlaceHolder
-import api.justlime.redeemcodex.models.RedeemTemplate
+import api.justlime.redeemcodex.models.placeholder.RCXPlaceHolder
+import api.justlime.redeemcodex.models.core.RedeemTemplate
 
 interface RedeemTemplateDao {
 

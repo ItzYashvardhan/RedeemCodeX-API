@@ -28,45 +28,45 @@
  * For inquiries,
  * Email: itsyashvardhan76@gmail.com
  * Discord: https://discord.gg/rVsUJ4keZN
- *
- *
  */
 
+package api.justlime.redeemcodex.service
 
-package api.justlime.redeemcodex.models
-
-import org.bukkit.Sound
+import api.justlime.redeemcodex.models.core.CouponNotifier
 import org.bukkit.entity.Player
-import java.io.Serializable
 
-/**
- * A data class to hold the state of a sound to be played.
- *
- * @param sound The name of the Bukkit Sound enum.
- * @param volume The volume of the sound, from 0.0 to 1.0.
- * @param pitch The pitch of the sound, from 0.5 to 2.0.
- */
-data class SoundState(
-    var sound: String? = null,
-    var volume: Float = 1f,
-    var pitch: Float = 1f
-) : Serializable {
-
-    companion object {
-        // Cache all Bukkit sounds in a map for high-performance lookups.
-        private val SOUND_MAP: Map<String, Sound> by lazy {
-            enumValues<Sound>().associateBy { it.name.uppercase() }
-        }
-    }
+interface ICouponNotifier {
 
     /**
-     * Plays the sound for a specific player at their location.
+     * Retrieves and displays all pending coupon notifications for a specific player.
      *
-     * @param player The player who will hear the sound.
+     * This is typically called when a player **joins the server** to inform them
+     * of any rewards or gifts they received while they were offline.
+     *
+     * @param player The online player to fetch and display notifications for.
      */
-    fun playSound(player: Player) {
-        if (sound.isNullOrBlank()) return
-        val resolvedSound = SOUND_MAP[sound!!.uppercase()] ?: return
-        player.playSound(player.location, resolvedSound, volume, pitch)
-    }
+    fun notify(player: Player)
+
+    /**
+     * Dispatches a single notification to a target user.
+     *
+     * * **Online:** The player receives the notification message immediately.
+     * * **Offline:** The notification is silently persisted to the database and will be
+     * delivered automatically when the player next joins (via [notify]).
+     *
+     * @param notifier The notification data containing the UUID, code, and sender info.
+     */
+    fun notify(notifier: CouponNotifier)
+
+    /**
+     * Dispatches a batch of notifications efficiently.
+     *
+     * This is optimized for bulk operations (e.g., "Give to All" commands) to
+     * reduce database overhead. Like the single variant, it handles both
+     * online delivery and offline persistence automatically.
+     *
+     * @param notifiers The list of notifications to process.
+     */
+    fun notify(notifiers: List<CouponNotifier>)
+
 }
