@@ -35,7 +35,7 @@ package api.justlime.redeemcodex.service
 import api.justlime.redeemcodex.models.core.CouponNotifier
 import org.bukkit.entity.Player
 
-interface ICouponNotifier {
+interface CouponNotifierService {
 
     /**
      * Retrieves and displays all pending coupon notifications for a specific player.
@@ -56,7 +56,7 @@ interface ICouponNotifier {
      *
      * @param notifier The notification data containing the UUID, code, and sender info.
      */
-    fun notify(notifier: CouponNotifier)
+    fun notify(notifier: CouponNotifier,onNotified: (success: Boolean) -> Unit)
 
     /**
      * Dispatches a batch of notifications efficiently.
@@ -67,6 +67,6 @@ interface ICouponNotifier {
      *
      * @param notifiers The list of notifications to process.
      */
-    fun notify(notifiers: List<CouponNotifier>)
+    fun notify(notifiers: List<CouponNotifier>,onNotified: (success: Boolean) -> Unit)
 
 }

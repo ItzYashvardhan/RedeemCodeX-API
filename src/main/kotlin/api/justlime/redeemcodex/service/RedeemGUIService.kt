@@ -30,9 +30,8 @@
  * Discord: https://discord.gg/rVsUJ4keZN
  */
 
-package api.justlime.redeemcodex
+package api.justlime.redeemcodex.service
 
-import api.justlime.redeemcodex.enums.RedeemCategory
 import api.justlime.redeemcodex.models.core.RedeemCode
 import api.justlime.redeemcodex.models.core.RedeemType
 import org.bukkit.entity.Player
@@ -42,7 +41,7 @@ import java.util.*
  *    Interface for managing RedeemCodeX plugin's user interfaces.
  * This interface provides methods to open various GUI menus for managing redeem codes, templates, and coupons.
  **/
-interface RedeemGUI {
+interface RedeemGUIService {
 
     /**
      * Opens the main selection menu (Redeem Code, Template, Voucher, etc.).
@@ -55,7 +54,7 @@ interface RedeemGUI {
      * @param redeemCategory The type of list to open (Code or Template).
      * @param pageId The page number to start on (defaults to 1).
      */
-    fun openListPage(viewer: Player, redeemCategory: RedeemCategory, pageId: Int = 1)
+    fun openCodeListPage(viewer: Player, pageId: Int = 1)
 
     /**
      * Opens the main editing menu for a specific RedeemType.

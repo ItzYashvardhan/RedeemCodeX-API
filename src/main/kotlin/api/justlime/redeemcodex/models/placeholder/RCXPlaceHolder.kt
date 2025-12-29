@@ -50,6 +50,7 @@ data class RCXPlaceHolder(
     var senderName: String = "CONSOLE",
 
     var code: String = "none",
+    var enabled: String = "none",
     var totalCodes: String = "1",
     var template: String = "none",
     var digit: String = "5",
@@ -206,13 +207,13 @@ data class RCXPlaceHolder(
 
     }
 
-    fun toMap(): Map<String, String> {
+    fun toMap(): MutableMap<String, String> {
         return rcxPlaceholderMap()
     }
 
-    private fun rcxPlaceholderMap(): Map<String, String> {
+    private fun rcxPlaceholderMap(): MutableMap<String, String> {
         val placeholder = this
-        return mapOf(
+        return mutableMapOf(
             //Main
             "{sender" to placeholder.sender.name,
             "{player}" to placeholder.player,
@@ -270,6 +271,7 @@ data class RCXPlaceHolder(
             "{sound}" to placeholder.sound,
             "{sound_volume}" to placeholder.soundVolume,
             "{sound_pitch}" to placeholder.soundPitch,
+            "{enabled}" to placeholder.enabled,
 
             //Coupons And Logs
             "{gifted_date}" to placeholder.giftedAt,

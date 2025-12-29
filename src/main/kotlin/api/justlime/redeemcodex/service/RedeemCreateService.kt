@@ -42,7 +42,7 @@ import org.bukkit.command.CommandSender
  * Service responsible for creating and generating RedeemCodes and Templates.
  * Handles database insertion, logging, and chat feedback.
  */
-interface RedeemCreate {
+interface RedeemCreateService {
 
     /**
      * Creates a single RedeemType (Code or Template).

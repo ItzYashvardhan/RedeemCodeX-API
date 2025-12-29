@@ -30,6 +30,8 @@ interface RedeemCodeDao {
      */
     fun get(callback: (redeemCodes: List<RedeemCode>) -> Unit)
 
+    fun get(size:Int, offSet:Int, callback: (redeemCodes: List<RedeemCode>) -> Unit)
+
     /**
      * Asynchronously retrieves all codes, sorted by a specific property.
      *
@@ -121,7 +123,7 @@ interface RedeemCodeDao {
      * @param redeemCode The code object to add.
      * @param callback Called with `true` if successful, `false` if the code exists or an error occurred.
      */
-    fun addCode(redeemCode: RedeemCode, callback: (success: Boolean) -> Unit)
+    fun addCode(redeemCode: RedeemCode, callback: (success: Boolean) -> Unit = {})
 
     /**
      * Asynchronously inserts multiple new codes in a batch transaction.
@@ -129,7 +131,7 @@ interface RedeemCodeDao {
      * @param redeemCodes The list of code objects to add.
      * @param callback Called with `true` if the batch operation was successful.
      */
-    fun addCodes(redeemCodes: List<RedeemCode>, callback: (success: Boolean) -> Unit)
+    fun addCodes(redeemCodes: List<RedeemCode>, callback: (success: Boolean) -> Unit ={})
 
     /**
      * Asynchronously updates an existing code in the database.
@@ -137,7 +139,7 @@ interface RedeemCodeDao {
      * @param redeemCode The code object with updated values.
      * @param callback Called with `true` if the update was successful.
      */
-    fun update(redeemCode: RedeemCode, callback: (success: Boolean) -> Unit)
+    fun update(redeemCode: RedeemCode, callback: (success: Boolean) -> Unit = {})
 
     /**
      * Asynchronously updates multiple existing codes in a batch transaction.
@@ -145,7 +147,7 @@ interface RedeemCodeDao {
      * @param redeemCodes The list of code objects to update.
      * @param callback Called with `true` if the batch update was successful.
      */
-    fun updateCodes(redeemCodes: List<RedeemCode>, callback: (success: Boolean) -> Unit)
+    fun update(redeemCodes: List<RedeemCode>, callback: (success: Boolean) -> Unit ={})
 
     /**
      * Asynchronously removes a code from the database.
@@ -153,7 +155,7 @@ interface RedeemCodeDao {
      * @param code The identifier of the code to remove.
      * @param callback Called with `true` if the deletion was successful.
      */
-    fun removeCode(code: String, callback: (success: Boolean) -> Unit)
+    fun removeCode(code: String, callback: (success: Boolean) -> Unit ={})
 
     /**
      * Asynchronously removes multiple codes from the database in a batch.
@@ -161,7 +163,7 @@ interface RedeemCodeDao {
      * @param codes The list of identifiers to remove.
      * @param callback Called with `true` if the batch deletion was successful.
      */
-    fun removeCodes(codes: List<String>, callback: (remainingCodes: List<String>) -> Unit)
+    fun removeCodes(codes: List<String>, callback: (remainingCodes: List<String>) -> Unit ={})
 
     fun removeCodesByTemplate(template: String, callback: (deleteCodes: List<String>, remainingCodes: List<String>) -> Unit)
 
@@ -170,11 +172,18 @@ interface RedeemCodeDao {
      *
      * @param callback Called with `true` if the operation was successful.
      */
-    fun removeAllCodes(callback: (remainingCodes: List<String>) -> Unit)
+    fun removeAllCodes(callback: (remainingCodes: List<String>) -> Unit = {})
 
-    // =========================================================================
+    /**
+     * Asynchronously gets the total number of codes in the database.
+     *
+     * @param callback Called with the total number of codes.
+     */
+    fun count(callback: (count: Int) -> Unit)
+
+    // ====================================================================================================
     //  CACHE & LOGIC (Synchronous / In-Memory)
-    // =========================================================================
+    // ====================================================================================================
 
     /**
      * Triggers an asynchronous refresh of the internal in-memory cache.

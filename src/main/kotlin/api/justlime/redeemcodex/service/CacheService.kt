@@ -30,8 +30,9 @@
  * Discord: https://discord.gg/rVsUJ4keZN
  */
 
-package api.justlime.redeemcodex.utilities
+package api.justlime.redeemcodex.service
 
+import api.justlime.redeemcodex.models.component.CachedCoupon
 import org.bukkit.OfflinePlayer
 import java.util.*
 
@@ -42,11 +43,11 @@ import java.util.*
  * optimized lookups for OfflinePlayers and handling deferred messages (notifications)
  * for players who are currently offline.
  */
-interface PlayerService {
+interface CacheService {
 
-    // =========================================================================
-    //  PLAYER RETRIEVAL & CACHING
-    // =========================================================================
+    // ======================
+    //  PLAYER RETRIEVAL
+    // ======================
 
     /**
      * Retrieves an [org.bukkit.OfflinePlayer] instance by their name.
@@ -95,22 +96,13 @@ interface PlayerService {
      */
     fun getPlayers(): MutableMap<UUID, String>
 
-    // =========================================================================
-    //  INTERNAL LIFECYCLE
-    // =========================================================================
+    // ======================
+    //  COUPONS
+    // ======================
 
-    /**
-     * **Internal Use Only.**
-     * Manually adds a player to the internal name/UUID cache.
-     *
-     * @param player The player object to cache.
-     */
-    fun addPlayerCache(player: OfflinePlayer)
+    fun getCoupons(uuid: UUID): List<CachedCoupon>
 
-    /**
-     * Initializes the service.
-     * Loads the player cache (if applicable).
-     * This method should be called once during plugin enablement.
-     */
-    fun init()
+    fun getCoupons(): List<CachedCoupon>
+
+
 }

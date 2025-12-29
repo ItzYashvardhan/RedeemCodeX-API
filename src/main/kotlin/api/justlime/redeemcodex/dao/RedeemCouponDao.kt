@@ -99,7 +99,7 @@ interface RedeemCouponDao {
      * @param code The code identifier to wipe from the database.
      * @param callback Called with `true` if the operation executed successfully.
      */
-    fun remove(code: String, callback: (success: Boolean) -> Unit)
+    fun remove(code: String, callback: (success: Boolean) -> Unit = {})
 
     /**
      * Asynchronously revokes a specific coupon from a specific player.
@@ -108,7 +108,7 @@ interface RedeemCouponDao {
      * @param code The code to remove.
      * @param callback Called with `true` if the coupon was found and removed, `false` otherwise.
      */
-    fun remove(playerUUID: UUID, code: String, callback: (success: Boolean) -> Unit)
+    fun remove(playerUUID: UUID, code: String, callback: (success: Boolean) -> Unit ={})
 
     /**
      * Asynchronously revokes **all** coupons from a specific player (wipes their wallet).
@@ -160,6 +160,7 @@ interface RedeemCouponDao {
      * @param callback Called with `true` if the operation executed successfully.
      */
     fun removeAllCouponsByTemplate(playerUUID: UUID, template: String, callback: (success: Boolean) -> Unit)
+    fun removeAllCouponsByTemplate(playerUUID: List<UUID>, template: String, callback: (success: Boolean) -> Unit)
 
     fun removeAllCoupons(callback: (success: Boolean) -> Unit)
 

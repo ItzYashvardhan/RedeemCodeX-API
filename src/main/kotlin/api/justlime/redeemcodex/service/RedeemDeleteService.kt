@@ -30,16 +30,18 @@
  * Discord: https://discord.gg/rVsUJ4keZN
  */
 
-package api.justlime.redeemcodex.models.core
+package api.justlime.redeemcodex.service
 
-import java.sql.Timestamp
-import java.util.*
+import org.bukkit.command.CommandSender
 
-data class RedeemCoupon(
-    val uuid: UUID,
-    val code: String,
-    val template: String,
-    val giftable: Boolean,
-    val sender: String,
-    val giftedAt: Timestamp
-)
+interface RedeemDeleteService {
+
+    fun deleteCode(sender: CommandSender,code: String, callback: (success: Boolean) -> Unit = {})
+    fun deleteCodes(sender: CommandSender, codes: List<String>, callback: (remainingCodes: List<String>) -> Unit ={})
+    fun deleteCodesByTemplate(sender: CommandSender,template: String, callback: (remainingCodes: List<String>) -> Unit = {})
+    fun deleteTemplate(sender: CommandSender,template: String, includeCodes: Boolean, callback: (success: Boolean) -> Unit = {})
+    fun deleteTemplates(sender: CommandSender,template: List<String>, includeCodes: Boolean = true, callback: (remainingTemplates: List<String>) -> Unit = {})
+    fun deleteAllCodes(sender: CommandSender, callback: (success: Boolean) -> Unit = {})
+    fun deleteAllTemplates(sender: CommandSender, callback: (success: Boolean) -> Unit = {})
+
+}

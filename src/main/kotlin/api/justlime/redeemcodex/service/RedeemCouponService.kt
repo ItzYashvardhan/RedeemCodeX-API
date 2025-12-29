@@ -38,7 +38,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-interface RedeemCoupon {
+interface RedeemCouponService {
 
     /**
      * Gives a coupon to a player.
@@ -47,7 +47,7 @@ interface RedeemCoupon {
      * @param code The code of the coupon to give.
      * @param onComplete Callback indicating if the operation was successful.
      */
-    fun giveCoupon(sender: CommandSender, uuid: UUID, code: String, onComplete: (success: Boolean) -> Unit = {})
+    fun giveCoupon(sender: CommandSender, uuid: UUID, code: String, giftable: Boolean, onComplete: (success: Boolean) -> Unit = {})
 
     /**
      * Gives a specified amount of randomly generated coupons from a template to a player.
@@ -56,10 +56,10 @@ interface RedeemCoupon {
      * @param templateName The name of the template to generate codes from.
      * @param digit The length of the codes to generate.
      * @param amount The number of codes to generate and give.
-     * @param secured If true, the generated codes will be secured to the player, meaning only they can redeem them.
+     * @param giftable If true, the generated codes will be secured to the player, meaning only they can redeem them.
      * @param onComplete Callback containing a list of the generated RedeemCode objects.
      */
-    fun giveRandomCoupons(sender: CommandSender, uuid: UUID, templateName: String, digit: Int, amount: Int, secured: Boolean, onComplete: (codes: List<RedeemCode>) -> Unit = {})
+    fun giveRandomCoupons(sender: CommandSender, uuid: UUID, templateName: String, digit: Int, amount: Int, giftable: Boolean, onComplete: (codes: List<RedeemCode>) -> Unit = {})
 
     /**
      * Gives a coupon to all online players.
@@ -67,7 +67,7 @@ interface RedeemCoupon {
      * @param code The code of the coupon to give.
      * @param onComplete Callback indicating if the operation was successful.
      */
-    fun giveCouponToAllOnline(sender: CommandSender, code: String, onComplete: (success: Boolean) -> Unit = {})
+    fun giveCouponToAllOnline(sender: CommandSender, code: String,giftable: Boolean, onComplete: (success: Boolean) -> Unit = {})
 
     /**
      * Gives a coupon to all players (online and offline).
@@ -75,17 +75,17 @@ interface RedeemCoupon {
      * @param code The code of the coupon to give.
      * @param onComplete Callback indicating if the operation was successful.
      */
-    fun giveCouponToAll(sender: CommandSender, code: String, onComplete: (success: Boolean) -> Unit = {})
+    fun giveCouponToAll(sender: CommandSender, code: String,giftable: Boolean, onComplete: (success: Boolean) -> Unit = {})
 
     /**
      * Gives a randomly generated coupon from a template to all online players.
      *
      * @param templateName The name of the template to generate codes from.
      * @param digit The length of the codes to generate.
-     * @param secured If true, the generated codes will be secured to the player, meaning only they can redeem them.
+     * @param giftable If true, the generated codes will be secured to the player, meaning only they can redeem them.
      * @param onComplete Callback containing a map of player UUIDs to the generated RedeemCode objects.
      */
-    fun giveRandomCouponToAllOnline(sender: CommandSender, templateName: String, digit: Int, secured: Boolean, onComplete: (playerCodes: Map<String, RedeemCode>) -> Unit = {})
+    fun giveRandomCouponToAllOnline(sender: CommandSender, templateName: String, digit: Int, giftable: Boolean, onComplete: (playerCodes: Map<UUID, RedeemCode>) -> Unit = {})
 
     /**
      * Gives a randomly generated coupon from a template to all players (online and offline).
@@ -95,7 +95,7 @@ interface RedeemCoupon {
      * @param secured If true, the generated codes will be secured to the player, meaning only they can redeem them.
      * @param onComplete Callback containing a map of player UUIDs to the generated RedeemCode objects.
      */
-    fun giveRandomCouponToAll(sender: CommandSender, templateName: String, digit: Int, secured: Boolean, onComplete: (playerCodes: Map<String, RedeemCode>) -> Unit = {})
+    fun giveRandomCouponToAll(sender: CommandSender, templateName: String, digit: Int, giftable: Boolean, onComplete: (playerCodes: Map<UUID, RedeemCode>) -> Unit = {})
 
     /**
      * Gifts a coupon from one player to another.
@@ -106,8 +106,7 @@ interface RedeemCoupon {
      * @param code The code of the coupon to gift.
      * @param onComplete Callback indicating if the operation was successful.
      */
-    fun gift(sender: Player, toPlayer: OfflinePlayer, code: String, onComplete: (success: Boolean) -> Unit = {})
-
+    fun gift(sender: Player, toPlayer: OfflinePlayer, code: String, giftable: Boolean, onComplete: (success: Boolean) -> Unit = {})
 
     /**
      * Takes a coupon from a player.
@@ -117,6 +116,15 @@ interface RedeemCoupon {
      * @param onComplete Callback indicating if the operation was successful.
      */
     fun takeCoupon(sender: CommandSender, uuid: UUID, code: String, onComplete: (success: Boolean) -> Unit = {})
+
+    /**
+     * Gives a coupon to all online players.
+     *
+     * @param uuid The UUID of the player.
+     * @param onComplete Callback indicating if the operation was successful.
+     */
+    fun takeAllCoupon(sender: CommandSender, uuid: UUID, onComplete: (success: Boolean) -> Unit = {})
+
 
     /**
      * Takes all coupons associated with a specific template from a player.

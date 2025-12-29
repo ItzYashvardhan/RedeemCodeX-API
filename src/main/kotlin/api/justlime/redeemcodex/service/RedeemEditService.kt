@@ -38,7 +38,7 @@ import api.justlime.redeemcodex.models.core.RedeemType
 import org.bukkit.command.CommandSender
 import java.util.*
 
-interface RedeemModify {
+interface RedeemEditService {
     fun update(sender: CommandSender, redeemType: RedeemType, onUpdate: (success: Boolean) -> Unit)
 
     fun update(sender: CommandSender, redeemTypes: List<RedeemType>, onUpdate: (success: Boolean) -> Unit)
@@ -67,7 +67,6 @@ interface RedeemModify {
 
     fun setPlayerLimit(sender: CommandSender, redeemType: RedeemType, playerLimit: Int?, onUpdate: (success: Boolean) -> Unit)
 
-    fun setExpiry(sender: CommandSender, redeemType: RedeemType, duration: String, onUpdate: (success: Boolean) -> Unit)
 
     fun setCondition(sender: CommandSender, redeemType: RedeemType, condition: String?, onUpdate: (success: Boolean) -> Unit)
 
