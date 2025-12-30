@@ -30,29 +30,9 @@
  * Discord: https://discord.gg/rVsUJ4keZN
  */
 
-package api.justlime.redeemcodex.dao
+package api.justlime.redeemcodex.enums
 
-import api.justlime.redeemcodex.models.component.JTitle
-import org.bukkit.command.CommandSender
-
-interface RedeemMessage {
-
-    fun getString(path: String): String
-
-    fun getStringList(path: String): List<String>
-
-    fun getTemplateMessage(path: String): String
-
-    fun getTitle(path: String, placeHolder: Map<String, String>): JTitle
-
-    fun getActionbar(path: String): String
-
-    fun sendMessage(sender: CommandSender, path: String, placeHolder: Map<String, String>)
-
-    //Send message with conversion to gradient
-    fun sendTextMessage(sender: CommandSender, text: String, placeHolder: MutableMap<String, String>)
-
-    //Send message without conversion to gradient
-    fun sendPlainMessage(sender: CommandSender, text: String, placeHolder: MutableMap<String, String>)
-
+enum class CouponView {
+    AVAILABLE,
+    HISTORY
 }

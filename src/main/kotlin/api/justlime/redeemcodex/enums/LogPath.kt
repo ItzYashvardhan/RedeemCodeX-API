@@ -30,29 +30,29 @@
  * Discord: https://discord.gg/rVsUJ4keZN
  */
 
-package api.justlime.redeemcodex.dao
+package api.justlime.redeemcodex.enums
 
-import api.justlime.redeemcodex.models.component.JTitle
-import org.bukkit.command.CommandSender
+enum class LogPath(val path: String) {
+    REDEEM_CODE("REDEEM/CODE"),
+    REDEEM_TEMPLATE("REDEEM/TEMPLATE"),
 
-interface RedeemMessage {
+    CREATE_CODE("CREATE/CODE"),
+    CREATE_TEMPLATE("CREATE/TEMPLATE"),
 
-    fun getString(path: String): String
+    DELETE_CODE("DELETE/CODE"),
+    DELETE_TEMPLATE("DELETE/TEMPLATE"),
 
-    fun getStringList(path: String): List<String>
+    EDIT_CODE("EDIT/CODE"),
+    EDIT_TEMPLATE("EDIT/TEMPLATE"),
 
-    fun getTemplateMessage(path: String): String
+    PREVIEW_CODE("PREVIEW/CODE"),
+    PREVIEW_TEMPLATE("PREVIEW/TEMPLATE"),
 
-    fun getTitle(path: String, placeHolder: Map<String, String>): JTitle
+    RENEW_CODE("RENEW/CODE"),
 
-    fun getActionbar(path: String): String
+    COUPON_GIVE("COUPON/GIVE"),
+    COUPON_GIFT("COUPON/GIFT"),
+    COUPON_TAKE("COUPON/TAKE")
 
-    fun sendMessage(sender: CommandSender, path: String, placeHolder: Map<String, String>)
-
-    //Send message with conversion to gradient
-    fun sendTextMessage(sender: CommandSender, text: String, placeHolder: MutableMap<String, String>)
-
-    //Send message without conversion to gradient
-    fun sendPlainMessage(sender: CommandSender, text: String, placeHolder: MutableMap<String, String>)
 
 }

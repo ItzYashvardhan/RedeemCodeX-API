@@ -32,19 +32,19 @@
 
 package api.justlime.redeemcodex.models.placeholder
 
+import api.justlime.redeemcodex.adapter.RCXSender
 import api.justlime.redeemcodex.models.core.RedeemCode
 import api.justlime.redeemcodex.models.core.RedeemCoupon
 import api.justlime.redeemcodex.models.core.RedeemLog
 import api.justlime.redeemcodex.models.core.RedeemTemplate
 import api.justlime.redeemcodex.models.core.RedeemType
 import api.justlime.redeemcodex.utilities.JTimeUtils
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
 //@Deprecated("In future This can split into multiple parts for simplicity ")
 @Suppress("unused")
 data class RCXPlaceHolder(
-    var sender: CommandSender = Bukkit.getConsoleSender(),
+    var sender: RCXSender? = null,
     var player: String = "CONSOLE",
     val args: List<String> = emptyList(),
     var senderName: String = "CONSOLE",
@@ -104,6 +104,7 @@ data class RCXPlaceHolder(
     var templateSyncProperty: String = "none",
 
     var dateFormat: String = "yyyy-MM-dd HH:mm:ss",
+    var uuid: String = "none",
 
     //Coupons
     var redeemedAt: String = "N/A",
@@ -111,37 +112,38 @@ data class RCXPlaceHolder(
 
 ) {
     companion object {
-        fun apply(redeemType: RedeemType, sender: CommandSender): RCXPlaceHolder {
+        fun apply(redeemType: RedeemType, sender: RCXSender?): RCXPlaceHolder {
             return when (redeemType) {
                 is RedeemCode -> applyByRedeemCode(redeemType, sender)
                 is RedeemTemplate -> applyByRedeemTemplate(redeemType, sender)
             }
         }
 
-        fun apply(redeemCoupon: RedeemCoupon, sender: CommandSender): RCXPlaceHolder {
+        fun apply(redeemCoupon: RedeemCoupon, sender: RCXSender?): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
-                player = sender.name,
+                player = if (sender is Player) sender.name else "",
                 code = redeemCoupon.code,
                 giftedAt = redeemCoupon.giftedAt.toString(),
+                uuid = if (sender is Player) sender.uniqueId.toString() else "UUID_NOT_EXIST",
             )
 
         }
 
-        fun apply(redeemLog: RedeemLog, sender: CommandSender): RCXPlaceHolder {
+        fun apply(redeemLog: RedeemLog, sender: RCXSender): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
-                player = sender.isOp.toString(),
+                player = if (sender is Player) sender.name else "",
                 code = redeemLog.code,
                 template = redeemLog.template,
                 redeemedAt = redeemLog.redeemedAt.toString(),
             )
         }
 
-        private fun applyByRedeemCode(redeemCode: RedeemCode, sender: CommandSender): RCXPlaceHolder {
+        private fun applyByRedeemCode(redeemCode: RedeemCode, sender: RCXSender?): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
-                player = sender.name,
+                player = if (sender is Player) sender.name else "",
                 code = redeemCode.code,
                 template = redeemCode.template,
                 duration = redeemCode.duration,
@@ -174,10 +176,10 @@ data class RCXPlaceHolder(
             )
         }
 
-        private fun applyByRedeemTemplate(template: RedeemTemplate, sender: CommandSender): RCXPlaceHolder {
+        private fun applyByRedeemTemplate(template: RedeemTemplate, sender: RCXSender?): RCXPlaceHolder {
             return RCXPlaceHolder(
                 sender = sender,
-                player = sender.name,
+                player = if (sender is Player) sender.name else "",
                 template = template.template,
                 status = template.enabledStatus.toString(),
                 templateSync = template.sync.toString(),
@@ -215,9 +217,8 @@ data class RCXPlaceHolder(
         val placeholder = this
         return mutableMapOf(
             //Main
-            "{sender" to placeholder.sender.name,
+            "{sender}" to (if (placeholder.sender is Player) (placeholder.sender as Player).name else ""),
             "{player}" to placeholder.player,
-
             "{args}" to placeholder.args.joinToString(" "),
             "{property}" to placeholder.property,
             "{current_version}" to placeholder.currentVersion,
@@ -276,6 +277,7 @@ data class RCXPlaceHolder(
             //Coupons And Logs
             "{gifted_date}" to placeholder.giftedAt,
             "{redeemed_date}" to placeholder.redeemedAt,
+            "{uuid}" to placeholder.uuid,
 
             //Output
             "{renewed_player}" to placeholder.renewedPlayer,

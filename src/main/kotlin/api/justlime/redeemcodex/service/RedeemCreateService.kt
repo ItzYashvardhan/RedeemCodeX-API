@@ -32,11 +32,10 @@
 
 package api.justlime.redeemcodex.service
 
+import api.justlime.redeemcodex.adapter.RCXSender
 import api.justlime.redeemcodex.models.core.RedeemCode
 import api.justlime.redeemcodex.models.core.RedeemTemplate
 import api.justlime.redeemcodex.models.core.RedeemType
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
 
 /**
  * Service responsible for creating and generating RedeemCodes and Templates.
@@ -48,35 +47,37 @@ interface RedeemCreateService {
      * Creates a single RedeemType (Code or Template).
      *
      * @param redeemType The object to create.
-     * @param sender The command sender (defaults to Console) for logging/feedback.
-     * @param onCreate Callback executed with `true` if creation was successful.
+     * @param sender The command sender for logging/feedback.
+     * @param onCreate Called with the created [RedeemType] or null if creation failed.
      */
-    fun create(redeemType: RedeemType, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (success: Boolean) -> Unit = {})
+    fun create(redeemType: RedeemType, sender: RCXSender?, onCreate: (redeemType: RedeemType?) -> Unit)
 
     /**
      * Creates a batch of RedeemTypes.
      *
      * @param redeemTypes The list of objects to create.
      * @param sender The command sender for logging/feedback.
-     * @param onCreate Callback executed with `true` if the batch operation was successful.
+     * @param onCreate Called with a list of successfully created [RedeemType]s.
      */
-    fun create(redeemTypes: List<RedeemType>, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (success: Boolean) -> Unit = {})
+    fun create(redeemTypes: List<RedeemType>, sender: RCXSender?, onCreate: (redeemTypes: List<RedeemType>) -> Unit)
 
     /**
      * Creates a specific RedeemCode using a string identifier and a Template object.
      *
      * @param code The specific code string (e.g., "SUMMER2024").
      * @param redeemTemplate The template configuration to apply.
+     * @param onCreate Called with the created [RedeemCode] or null if creation failed.
      */
-    fun create(code: String, redeemTemplate: RedeemTemplate, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (success: Boolean) -> Unit = {})
+    fun create(code: String, redeemTemplate: RedeemTemplate, sender: RCXSender?, onCreate: (redeemCode: RedeemCode?) -> Unit)
 
     /**
      * Creates multiple specific RedeemCodes using a list of strings and a Template object.
      *
      * @param codes The list of code strings to create.
      * @param redeemTemplate The template configuration to apply.
+     * @param onCreate Called with a list of successfully created [RedeemCode]s.
      */
-    fun create(codes: List<String>, redeemTemplate: RedeemTemplate, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (success: Boolean) -> Unit = {})
+    fun create(codes: List<String>, redeemTemplate: RedeemTemplate, sender: RCXSender?, onCreate: (redeemCodes: List<RedeemCode>) -> Unit)
 
     /**
      * Creates a specific RedeemCode using a string identifier and a Template name.
@@ -84,33 +85,36 @@ interface RedeemCreateService {
      *
      * @param code The specific code string.
      * @param template The name of the template.
+     * @param onCreate Called with the created [RedeemCode] or null if creation failed.
      */
-    fun create(code: String, template: String, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (success: Boolean) -> Unit = {})
+    fun create(code: String, template: String, sender: RCXSender?, onCreate: (redeemCode: RedeemCode?) -> Unit)
 
     /**
      * Creates multiple specific RedeemCodes using a list of strings and a Template name.
      *
      * @param codes The list of code strings.
      * @param template The name of the template.
+     * @param onCreate Called with a list of successfully created [RedeemCode]s.
      */
-    fun create(codes: List<String>, template: String, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (success: Boolean) -> Unit = {})
+    fun create(codes: List<String>, template: String, sender: RCXSender?, onCreate: (redeemCodes: List<RedeemCode>) -> Unit = {})
 
     /**
      * Generates and creates a **single random code** of a specific length.
      *
      * @param digit The length of the generated code.
      * @param redeemTemplate The template object to use.
-     * @param onCreate Callback containing the generated code.
+     * @param onCreate Called with the generated code, or null if it failed
      */
-    fun create(digit: Int, redeemTemplate: RedeemTemplate, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (code: RedeemCode?) -> Unit = {})
+    fun create(digit: Int, redeemTemplate: RedeemTemplate, sender: RCXSender?, onCreate: (redeemCode: RedeemCode?) -> Unit)
 
     /**
      * Generates and creates a **single random code** of a specific length using a template name.
      *
      * @param digit The length of the generated code.
      * @param template The name of the template.
+     * @param onCreate Called with the generated code, or null if it failed
      */
-    fun create(digit: Int, template: String, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (code: RedeemCode?) -> Unit = {})
+    fun create(digit: Int, template: String, sender: RCXSender?, onCreate: (redeemCode: RedeemCode?) -> Unit)
 
     /**
      * Generates and creates **multiple random codes** of a specific length.
@@ -119,9 +123,9 @@ interface RedeemCreateService {
      * @param redeemTemplate The template object to use.
      * @param amount The number of codes to generate.
      * @param codes An optional list to add the generated codes to.
-     * @param onCreate Callback containing the list of generated codes.
+     * @param onCreate Called with the list of generated codes.
      */
-    fun create(digit: Int, redeemTemplate: RedeemTemplate, amount: Int, codes: List<String> = mutableListOf(), sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (codes: List<RedeemCode>) -> Unit = {})
+    fun create(digit: Int, redeemTemplate: RedeemTemplate, amount: Int, codes: List<String> = mutableListOf(), sender: RCXSender?, onCreate: (redeemCodes: List<RedeemCode>) -> Unit)
 
     /**
      * Generates and creates **multiple random codes** of a specific length using a template name.
@@ -130,17 +134,17 @@ interface RedeemCreateService {
      * @param template The name of the template.
      * @param amount The number of codes to generate.
      * @param codes An optional list to add the generated codes to.
-     * @param onCreate Callback containing the list of generated codes.
+     * @param onCreate Called with the list of generated codes.
      */
-    fun create(digit: Int, template: String, amount: Int, codes: List<String> = mutableListOf(), sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (codes: List<RedeemCode>) -> Unit = {})
+    fun create(digit: Int, template: String, amount: Int, codes: List<String> = mutableListOf(), sender: RCXSender?, onCreate: (redeemCodes: List<RedeemCode>) -> Unit = {})
 
     /**
      * Creates a RedeemTemplate from a given template name.
      *
      * @param template The name of the template to create.
      * @param sender The command sender for logging/feedback.
-     * @param onCreate Callback executed with `true` if creation was successful.
+     * @param onCreate Called with the created [RedeemTemplate] or null if creation failed.
      */
-    fun create(template: String, sender: CommandSender = Bukkit.getConsoleSender(), onCreate: (success: Boolean) -> Unit = {})
+    fun create(template: String, sender: RCXSender?, onCreate: (redeemTemplate: RedeemTemplate?) -> Unit)
 
 }

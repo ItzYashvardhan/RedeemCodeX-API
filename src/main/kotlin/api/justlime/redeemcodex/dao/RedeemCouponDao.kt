@@ -119,6 +119,15 @@ interface RedeemCouponDao {
     fun removeCoupons(playerUUID: UUID, callback: (success: Boolean) -> Unit)
 
     /**
+     * Asynchronously revokes **all** coupons from given players (wipes their wallet).
+     *
+     * @param playerUUID The UUID of the player to reset.
+     * @param callback Called with `true` if the operation was successful.
+     */
+    fun removeAllCouponsFromPlayers(playerUUID: List<UUID>, callback: (success: Boolean) -> Unit)
+
+
+    /**
      * Asynchronously removes a list of coupon codes from **all** players who possess them.
      *
      * @param code A list of code strings to wipe from the database.
